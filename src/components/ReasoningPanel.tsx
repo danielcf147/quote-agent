@@ -1,0 +1,196 @@
+import type { CSSProperties } from "react";
+import { AMBIGUITY_MARGIN, HIGH_CONFIDENCE, MIN_SIMILARITY } from "@/lib/config";
+import { formatCost, hue, pct, score } from "@/lib/format";
+import type { QuoteLine, QuoteResult } from "@/lib/types";
+
+interface Props {
+  result: QuoteResult;
+  active: number | null;
+  onHover: (index: number | null) => void;
+}
+
+export function ReasoningPanel({ result, active, onHover }: Props) {
+  const totalMs = result.stages.reduce((s, st) => s + st.ms, 0);
+  const tokens = result.usage.promptTokens + result.usage.completionTokens + result.usage.embeddingTokens;
+
+  return (
+    <section aria-label="How the quote was built" className="space-y-4">
+      <div className="rounded-xl border border-line bg-surface p-4 sm:p-5">
+        <div className="flex flex-wrap items-baseline justify-between gap-2">
+          <h3 className="text-sm font-semibold text-ink">Pipeline</h3>
+          <p className="text-xs text-ink-3 tabular">
+            {(totalMs / 1000).toFixed(2)} s · {tokens.toLocaleString("en-US")} tokens · {formatCost(result.estimatedCostUsd)}
+          </p>
+        </div>
+        <ol className="mt-3 grid gap-2 sm:grid-cols-2">
+          {result.stages.map((st, i) => (
+            <li key={st.id} className="relative rounded-lg bg-surface-2 px-3 py-2.5">
+              <p className="flex items-center justify-between gap-2 text-xs">
+                <span className="font-medium text-ink">
+                  <span className="mr-1.5 font-mono text-ink-3">{i + 1}</span>
+                  {st.label}
+                </span>
+                <span className="font-mono text-ink-3 tabular">{st.ms} ms</span>
+              </p>
+              <p className="mt-1 text-[11px] leading-snug text-ink-3">{st.detail}</p>
+            </li>
+          ))}
+        </ol>
+        {result.warnings.length > 0 && (
+          <ul className="mt-3 space-y-1">
+            {result.warnings.map((w) => (
+              <li key={w} className="flex gap-2 text-xs text-warn">
+                <span aria-hidden>▲</span>
+                {w}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+
+      <ol className="space-y-3">
+        {result.lines.map((l, i) => (
+          <li key={l.index} className="rise" style={{ animationDelay: `${i * 60}ms` }}>
+            <LineTrace line={l} active={active === l.index} onHover={onHover} />
+          </li>
+        ))}
+      </ol>
+    </section>
+  );
+}
+
+const VERDICT = {
+  high: { label: "Matched", cls: "bg-good-soft text-good" },
+  review: { label: "Needs review", cls: "bg-warn-soft text-warn" },
+  none: { label: "Not quoted", cls: "bg-bad-soft text-bad" },
+} as const;
+
+function decisionText(l: QuoteLine): string {
+  const s = score(l.candidates[0].score);
+  if (l.confidence === "high") return `Similarity ${s} ≥ ${HIGH_CONFIDENCE.toFixed(2)}, so the top candidate was accepted.`;
+  if (l.confidence === "review")
+    return `Similarity ${s} is between ${MIN_SIMILARITY.toFixed(2)} and ${HIGH_CONFIDENCE.toFixed(2)}: quoted, but flagged for a human to confirm.`;
+  return `Best similarity ${s} < ${MIN_SIMILARITY.toFixed(2)}: nothing in the catalog is close enough, so the item was left out instead of guessing.`;
+}
+
+function unitText(l: QuoteLine): string {
+  const { quantity, unit, unitAsWritten } = l.requested;
+  const written = unitAsWritten ? ` “${unitAsWritten}”` : "";
+  const normalized = unit === "pack" ? "selling unit" : unit === "each" ? "pieces" : unit;
+  return `${quantity}${written} → ${normalized}`;
+}
+
+function LineTrace({
+  line: l,
+  active,
+  onHover,
+}: {
+  line: QuoteLine;
+  active: boolean;
+  onHover: (index: number | null) => void;
+}) {
+  const verdict = VERDICT[l.confidence];
+  const kw = l.lexical.keywordPick;
+  const kwAgrees = kw && l.match && kw.sku === l.match.sku;
+
+  return (
+    <article
+      onMouseEnter={() => onHover(l.index)}
+      onMouseLeave={() => onHover(null)}
+      className="rounded-xl border bg-surface transition-[border-color,box-shadow] duration-150"
+      style={
+        {
+          borderColor: active ? hue(l.index) : "var(--line)",
+          boxShadow: active ? `0 0 0 3px color-mix(in srgb, ${hue(l.index)} 15%, transparent)` : undefined,
+        } as CSSProperties
+      }
+    >
+      <header className="flex items-start gap-3 border-b border-line px-4 py-3">
+        <span
+          className="mt-0.5 inline-flex size-5 shrink-0 items-center justify-center rounded-full font-mono text-[10px] font-semibold text-white"
+          style={{ background: hue(l.index) }}
+        >
+          {l.index + 1}
+        </span>
+        <p className="min-w-0 flex-1 text-sm leading-snug text-ink">&ldquo;{l.sourceText}&rdquo;</p>
+        <span className={`shrink-0 rounded px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${verdict.cls}`}>
+          {verdict.label}
+        </span>
+      </header>
+
+      <dl className="grid grid-cols-[92px_minmax(0,1fr)] gap-x-3 gap-y-3 px-4 py-3 text-xs sm:grid-cols-[112px_minmax(0,1fr)]">
+        <dt className="pt-0.5 text-ink-3">Understood as</dt>
+        <dd className="text-ink-2">
+          <span className="break-words font-mono text-ink">{l.searchQuery}</span>
+          <span className="mt-1 block text-ink-3">{unitText(l)}</span>
+        </dd>
+
+        <dt className="pt-0.5 text-ink-3">Nearest products</dt>
+        <dd>
+          <ul className="space-y-2">
+            {l.candidates.map((c, rank) => (
+              <li key={c.sku}>
+                <div className="flex items-baseline justify-between gap-3">
+                  <span className={`min-w-0 truncate ${rank === 0 ? "font-medium text-ink" : "text-ink-2"}`} title={c.name}>
+                    {rank === 0 && l.match ? "✓ " : ""}
+                    {c.name}
+                  </span>
+                  <span className={`font-mono tabular ${rank === 0 ? "text-ink" : "text-ink-3"}`}>{score(c.score)}</span>
+                </div>
+                <ScoreBar value={c.score} color={rank === 0 ? hue(l.index) : "var(--line-strong)"} />
+              </li>
+            ))}
+          </ul>
+        </dd>
+
+        <dt className="pt-0.5 text-ink-3">Decision</dt>
+        <dd className="leading-relaxed text-ink-2">
+          {decisionText(l)}
+          {l.ambiguous && (
+            <span className="mt-1 block text-warn">
+              Runner-up is only {score(l.margin)} behind (&lt; {AMBIGUITY_MARGIN}), so the choice is ambiguous.
+            </span>
+          )}
+        </dd>
+
+        {l.match && (
+          <>
+            <dt className="pt-0.5 text-ink-3">Quantity</dt>
+            <dd className="text-ink-2">
+              {l.conversion.note ?? `${l.conversion.packs} × ${l.match.unit}`}
+            </dd>
+          </>
+        )}
+
+        <dt className="pt-0.5 text-ink-3">Keyword search</dt>
+        <dd className="leading-relaxed text-ink-2">
+          {kw ? (
+            kwAgrees ? (
+              <>Would also have found this one ({pct(kw.score)} word overlap).</>
+            ) : (
+              <>
+                Would have picked <span className="text-ink">{kw.name}</span>{" "}
+                <span className="text-ink-3">({pct(kw.score)} word overlap)</span>
+                {l.match ? ", a different product than the vector search chose." : "."}
+              </>
+            )
+          ) : (
+            <>Found nothing: none of the customer&rsquo;s words appear in any product name.</>
+          )}
+        </dd>
+      </dl>
+    </article>
+  );
+}
+
+/** Similarity bar on a 0–1 scale with ticks at the two decision thresholds. */
+function ScoreBar({ value, color }: { value: number; color: string }) {
+  const w = Math.max(0, Math.min(1, value)) * 100;
+  return (
+    <div className="relative mt-1 h-1.5 rounded-full bg-surface-2" aria-hidden>
+      <div className="absolute inset-y-0 left-0 rounded-full" style={{ width: `${w}%`, background: color }} />
+      <div className="absolute -inset-y-0.5 w-px bg-ink-3/50" style={{ left: `${MIN_SIMILARITY * 100}%` }} />
+      <div className="absolute -inset-y-0.5 w-px bg-ink-3/50" style={{ left: `${HIGH_CONFIDENCE * 100}%` }} />
+    </div>
+  );
+}

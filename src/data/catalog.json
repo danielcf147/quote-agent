@@ -1,0 +1,962 @@
+[
+  {
+    "sku": "PPE-NBR-S",
+    "name": "Acrylonitrile-Butadiene Examination Gloves, Powder-Free, Small",
+    "description": "Ambidextrous non-sterile examination gloves manufactured from synthetic acrylonitrile-butadiene rubber, 0.10 mm palm thickness, textured fingertips, AQL 1.5. Size Small.",
+    "category": "Personal protective equipment",
+    "unit": "Box of 100",
+    "price": 11.4,
+    "content": {
+      "amount": 100,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "PPE-NBR-M",
+    "name": "Acrylonitrile-Butadiene Examination Gloves, Powder-Free, Medium",
+    "description": "Ambidextrous non-sterile examination gloves manufactured from synthetic acrylonitrile-butadiene rubber, 0.10 mm palm thickness, textured fingertips, AQL 1.5. Size Medium.",
+    "category": "Personal protective equipment",
+    "unit": "Box of 100",
+    "price": 11.4,
+    "content": {
+      "amount": 100,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "PPE-NBR-L",
+    "name": "Acrylonitrile-Butadiene Examination Gloves, Powder-Free, Large",
+    "description": "Ambidextrous non-sterile examination gloves manufactured from synthetic acrylonitrile-butadiene rubber, 0.10 mm palm thickness, textured fingertips, AQL 1.5. Size Large.",
+    "category": "Personal protective equipment",
+    "unit": "Box of 100",
+    "price": 11.4,
+    "content": {
+      "amount": 100,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "PPE-NRL-M",
+    "name": "Natural Rubber Latex Examination Gloves, Lightly Powdered, Medium",
+    "description": "Ambidextrous non-sterile examination gloves of natural rubber latex with beaded cuff, lightly powdered with USP-grade absorbable corn starch. Size Medium.",
+    "category": "Personal protective equipment",
+    "unit": "Box of 100",
+    "price": 8.9,
+    "content": {
+      "amount": 100,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "PPE-COAT-M",
+    "name": "Laboratory Protective Coat, Polycotton, Medium",
+    "description": "Knee-length protective coat in 65/35 polyester-cotton twill with snap closure, knit cuffs and three pockets. Size Medium.",
+    "category": "Personal protective equipment",
+    "unit": "Each",
+    "price": 34.5,
+    "content": {
+      "amount": 1,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "PPE-COAT-L",
+    "name": "Laboratory Protective Coat, Polycotton, Large",
+    "description": "Knee-length protective coat in 65/35 polyester-cotton twill with snap closure, knit cuffs and three pockets. Size Large.",
+    "category": "Personal protective equipment",
+    "unit": "Each",
+    "price": 34.5,
+    "content": {
+      "amount": 1,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "PPE-SPEC-01",
+    "name": "Protective Spectacles, Polycarbonate, Anti-Fog",
+    "description": "Wraparound ocular protection with polycarbonate lens, side shields, anti-fog and anti-scratch coating, compliant with impact standard Z87.1.",
+    "category": "Personal protective equipment",
+    "unit": "Each",
+    "price": 6.75,
+    "content": {
+      "amount": 1,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "PPE-RESP-50",
+    "name": "Disposable Particulate Respirator, FFP2, Cup-Shaped",
+    "description": "Single-use filtering facepiece respirator with ≥94% filtration efficiency against solid and liquid aerosols, adjustable nose clip.",
+    "category": "Personal protective equipment",
+    "unit": "Box of 20",
+    "price": 24.0,
+    "content": {
+      "amount": 20,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "PPE-MASK-3P",
+    "name": "Three-Ply Procedure Mask, Ear-Loop",
+    "description": "Fluid-resistant non-woven facial barrier with three layers, malleable nose bar and elastic ear loops.",
+    "category": "Personal protective equipment",
+    "unit": "Box of 50",
+    "price": 7.2,
+    "content": {
+      "amount": 50,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "CHM-IPA-1L",
+    "name": "2-Propanol, ACS Reagent Grade, ≥99.5%, 1 L",
+    "description": "Secondary alcohol solvent (CAS 67-63-0) meeting ACS reagent specifications, supplied in an amber glass bottle.",
+    "category": "Chemicals and reagents",
+    "unit": "Bottle (1 L)",
+    "price": 18.6,
+    "content": {
+      "amount": 1,
+      "measure": "L"
+    }
+  },
+  {
+    "sku": "CHM-IPA-4L",
+    "name": "2-Propanol, ACS Reagent Grade, ≥99.5%, 4 L",
+    "description": "Secondary alcohol solvent (CAS 67-63-0) meeting ACS reagent specifications, supplied in an amber glass bottle.",
+    "category": "Chemicals and reagents",
+    "unit": "Bottle (4 L)",
+    "price": 54.9,
+    "content": {
+      "amount": 4,
+      "measure": "L"
+    }
+  },
+  {
+    "sku": "CHM-ETOH-70",
+    "name": "Ethanol Solution 70% (v/v), Denatured, 1 L",
+    "description": "Aqueous ethyl alcohol solution, denatured, for surface decontamination and general laboratory use.",
+    "category": "Chemicals and reagents",
+    "unit": "Bottle (1 L)",
+    "price": 9.8,
+    "content": {
+      "amount": 1,
+      "measure": "L"
+    }
+  },
+  {
+    "sku": "CHM-ETOH-AB",
+    "name": "Ethanol, Absolute, ≥99.8%, Analytical Grade, 1 L",
+    "description": "Anhydrous ethyl alcohol (CAS 64-17-5) for analysis, water content ≤0.2%.",
+    "category": "Chemicals and reagents",
+    "unit": "Bottle (1 L)",
+    "price": 27.4,
+    "content": {
+      "amount": 1,
+      "measure": "L"
+    }
+  },
+  {
+    "sku": "CHM-ACET-1L",
+    "name": "Propan-2-one, HPLC Grade, ≥99.9%, 1 L",
+    "description": "Ketone solvent (CAS 67-64-1) of chromatographic purity with low UV absorbance and residue on evaporation ≤1 ppm.",
+    "category": "Chemicals and reagents",
+    "unit": "Bottle (1 L)",
+    "price": 31.2,
+    "content": {
+      "amount": 1,
+      "measure": "L"
+    }
+  },
+  {
+    "sku": "CHM-H2O-5L",
+    "name": "Deionized Water, ASTM Type II, 5 L",
+    "description": "Purified water with resistivity >1 MΩ·cm at 25 °C, supplied in a collapsible cubitainer.",
+    "category": "Chemicals and reagents",
+    "unit": "Container (5 L)",
+    "price": 14.5,
+    "content": {
+      "amount": 5,
+      "measure": "L"
+    }
+  },
+  {
+    "sku": "CHM-NAOCL-1L",
+    "name": "Sodium Hypochlorite Solution, 6% Available Chlorine, 1 L",
+    "description": "Aqueous oxidizing solution for chemical disinfection of liquid biological waste and hard surfaces.",
+    "category": "Chemicals and reagents",
+    "unit": "Bottle (1 L)",
+    "price": 6.3,
+    "content": {
+      "amount": 1,
+      "measure": "L"
+    }
+  },
+  {
+    "sku": "CHM-NACL-500",
+    "name": "Sodium Chloride, Molecular Biology Grade, 500 g",
+    "description": "Crystalline NaCl (CAS 7647-14-5), ≥99.5%, tested free of DNase, RNase and protease activity.",
+    "category": "Chemicals and reagents",
+    "unit": "Bottle (500 g)",
+    "price": 22.8,
+    "content": {
+      "amount": 500,
+      "measure": "g"
+    }
+  },
+  {
+    "sku": "CHM-PBS-10X",
+    "name": "Phosphate-Buffered Saline, 10× Concentrate, 1 L",
+    "description": "Sterile-filtered isotonic buffer concentrate, pH 7.4 upon 1:10 dilution, without calcium and magnesium.",
+    "category": "Chemicals and reagents",
+    "unit": "Bottle (1 L)",
+    "price": 29.9,
+    "content": {
+      "amount": 1,
+      "measure": "L"
+    }
+  },
+  {
+    "sku": "CHM-PH-STRP",
+    "name": "pH Indicator Strips, Range 0–14, Non-Bleeding",
+    "description": "Universal indicator test strips with four fixed reagent pads, resolution 1 pH unit.",
+    "category": "Chemicals and reagents",
+    "unit": "Pack of 100 strips",
+    "price": 12.1,
+    "content": {
+      "amount": 100,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "INS-MP-P10",
+    "name": "Single-Channel Adjustable Micropipette, 0.5–10 µL",
+    "description": "Air-displacement piston-operated volumetric apparatus with variable volume setting across 0.5–10 µL, four-digit volume display and autoclavable lower part.",
+    "category": "Laboratory instruments",
+    "unit": "Each",
+    "price": 189.0,
+    "content": {
+      "amount": 1,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "INS-MP-P100",
+    "name": "Single-Channel Adjustable Micropipette, 10–100 µL",
+    "description": "Air-displacement piston-operated volumetric apparatus with variable volume setting across 10–100 µL, four-digit volume display and autoclavable lower part.",
+    "category": "Laboratory instruments",
+    "unit": "Each",
+    "price": 189.0,
+    "content": {
+      "amount": 1,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "INS-MP-P200",
+    "name": "Single-Channel Adjustable Micropipette, 20–200 µL",
+    "description": "Air-displacement piston-operated volumetric apparatus with variable volume setting across 20–200 µL, four-digit volume display and autoclavable lower part.",
+    "category": "Laboratory instruments",
+    "unit": "Each",
+    "price": 189.0,
+    "content": {
+      "amount": 1,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "INS-MP-P1000",
+    "name": "Single-Channel Adjustable Micropipette, 100–1000 µL",
+    "description": "Air-displacement piston-operated volumetric apparatus with variable volume setting across 100–1000 µL, four-digit volume display and autoclavable lower part.",
+    "category": "Laboratory instruments",
+    "unit": "Each",
+    "price": 189.0,
+    "content": {
+      "amount": 1,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "INS-MP-8CH",
+    "name": "Eight-Channel Adjustable Micropipette, 10–100 µL",
+    "description": "Multichannel air-displacement volumetric apparatus for parallel dispensing into 96-well microplates.",
+    "category": "Laboratory instruments",
+    "unit": "Each",
+    "price": 549.0,
+    "content": {
+      "amount": 1,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "INS-PCTRL",
+    "name": "Motorized Pipetting Controller",
+    "description": "Battery-operated aspiration and dispensing device for serological pipettes 1–100 mL, with variable speed and hydrophobic 0.45 µm filter.",
+    "category": "Laboratory instruments",
+    "unit": "Each",
+    "price": 265.0,
+    "content": {
+      "amount": 1,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "INS-STIR",
+    "name": "Magnetic Agitator with Heating Plate, 15 L Capacity",
+    "description": "Combined heating and magnetic agitation unit with ceramic top plate, 100–1500 rpm and temperature up to 340 °C.",
+    "category": "Laboratory instruments",
+    "unit": "Each",
+    "price": 412.0,
+    "content": {
+      "amount": 1,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "INS-VORTEX",
+    "name": "Orbital Tube Agitator, Variable Speed",
+    "description": "Bench-top vortex-motion agitator with touch and continuous modes, 0–3000 rpm, for tubes up to 50 mL.",
+    "category": "Laboratory instruments",
+    "unit": "Each",
+    "price": 238.0,
+    "content": {
+      "amount": 1,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "INS-BAL-220",
+    "name": "Analytical Balance, 220 g Capacity, 0.1 mg Readability",
+    "description": "Electronic gravimetric instrument with draft shield, internal calibration and RS-232/USB interface.",
+    "category": "Laboratory instruments",
+    "unit": "Each",
+    "price": 1890.0,
+    "content": {
+      "amount": 1,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "INS-TIMER",
+    "name": "Digital Laboratory Interval Timer, Three-Channel",
+    "description": "Countdown and count-up chronometer with three independent channels and audible alarm.",
+    "category": "Laboratory instruments",
+    "unit": "Each",
+    "price": 19.5,
+    "content": {
+      "amount": 1,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "CON-TIP-10",
+    "name": "Universal Fit Pipette Tips, 10 µL, Racked, Sterile",
+    "description": "Polypropylene disposable tips of 10 µL nominal volume with graduations, aerosol barrier filter, gamma-sterilized and supplied in reusable racks.",
+    "category": "Laboratory consumables",
+    "unit": "Rack of 96",
+    "price": 21.0,
+    "content": {
+      "amount": 96,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "CON-TIP-200",
+    "name": "Universal Fit Pipette Tips, 200 µL, Racked, Sterile",
+    "description": "Polypropylene disposable tips of 200 µL nominal volume with graduations, aerosol barrier filter, gamma-sterilized and supplied in reusable racks.",
+    "category": "Laboratory consumables",
+    "unit": "Rack of 96",
+    "price": 18.5,
+    "content": {
+      "amount": 96,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "CON-TIP-1000",
+    "name": "Universal Fit Pipette Tips, 1000 µL, Racked, Sterile",
+    "description": "Polypropylene disposable tips of 1000 µL nominal volume with graduations, aerosol barrier filter, gamma-sterilized and supplied in reusable racks.",
+    "category": "Laboratory consumables",
+    "unit": "Rack of 96",
+    "price": 19.8,
+    "content": {
+      "amount": 96,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "CON-CT-50",
+    "name": "Conical-Bottom Centrifugation Tubes, 50 mL, Sterile",
+    "description": "Polypropylene tubes with conical base, leak-proof screw closure and printed graduations, RCF rating 15,000 × g.",
+    "category": "Laboratory consumables",
+    "unit": "Pack of 25",
+    "price": 13.4,
+    "content": {
+      "amount": 25,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "CON-CT-15",
+    "name": "Conical-Bottom Centrifugation Tubes, 15 mL, Sterile",
+    "description": "Polypropylene tubes with conical base, leak-proof screw closure and printed graduations, RCF rating 12,000 × g.",
+    "category": "Laboratory consumables",
+    "unit": "Pack of 50",
+    "price": 15.9,
+    "content": {
+      "amount": 50,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "CON-MCT-15",
+    "name": "Microcentrifugation Tubes with Snap Cap, 1.5 mL",
+    "description": "Polypropylene tubes with integrated hinged closure, graduations and frosted writing surface, DNase/RNase-free.",
+    "category": "Laboratory consumables",
+    "unit": "Bag of 500",
+    "price": 17.6,
+    "content": {
+      "amount": 500,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "CON-CRYO-2",
+    "name": "Cryogenic Storage Vials, 2 mL, External Thread",
+    "description": "Self-standing polypropylene vials with silicone-gasketed screw closure, rated to −196 °C in vapor phase.",
+    "category": "Laboratory consumables",
+    "unit": "Pack of 50",
+    "price": 28.4,
+    "content": {
+      "amount": 50,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "CON-PETRI-90",
+    "name": "Polystyrene Culture Dishes, 90 mm, Sterile, Vented",
+    "description": "Single-use circular dishes with tri-vented lid for microbial cultivation on solid media.",
+    "category": "Laboratory consumables",
+    "unit": "Sleeve of 20",
+    "price": 6.9,
+    "content": {
+      "amount": 20,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "CON-SERO-10",
+    "name": "Serological Pipettes, 10 mL, Individually Wrapped",
+    "description": "Graduated polystyrene volumetric tubes with cotton plug, sterile, for use with pipetting controllers.",
+    "category": "Laboratory consumables",
+    "unit": "Case of 50",
+    "price": 21.3,
+    "content": {
+      "amount": 50,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "CON-TRANS-3",
+    "name": "Graduated Polyethylene Transfer Pipettes, 3 mL",
+    "description": "Single-piece low-density polyethylene liquid transfer devices with integrated bulb, non-sterile.",
+    "category": "Laboratory consumables",
+    "unit": "Pack of 500",
+    "price": 16.2,
+    "content": {
+      "amount": 500,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "CON-WIPE-LL",
+    "name": "Low-Lint Delicate Task Wipers, Single-Ply",
+    "description": "Disposable cellulose tissue wipers with low particulate release for cleaning optics and laboratory surfaces, 11 × 21 cm.",
+    "category": "Laboratory consumables",
+    "unit": "Box of 280",
+    "price": 5.4,
+    "content": {
+      "amount": 280,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "CON-FILM-10",
+    "name": "Thermoplastic Sealing Film, 10 cm × 38 m",
+    "description": "Self-adhering, moisture-resistant paraffin-polyolefin membrane for sealing vessel openings.",
+    "category": "Laboratory consumables",
+    "unit": "Roll",
+    "price": 39.9,
+    "content": {
+      "amount": 1,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "CON-WB-SM",
+    "name": "Anti-Static Weighing Vessels, Hexagonal, 7 mL",
+    "description": "Polystyrene disposable containers for gravimetric sample transfer.",
+    "category": "Laboratory consumables",
+    "unit": "Pack of 500",
+    "price": 23.7,
+    "content": {
+      "amount": 500,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "CON-SF-022",
+    "name": "Syringe-Mounted Membrane Filters, PES, 0.22 µm, 25 mm",
+    "description": "Sterile polyethersulfone filtration units with Luer-lock inlet for sterilizing filtration of aqueous solutions.",
+    "category": "Laboratory consumables",
+    "unit": "Pack of 50",
+    "price": 48.5,
+    "content": {
+      "amount": 50,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "CON-SYR-10",
+    "name": "Disposable Hypodermic Syringe, Luer-Lock, 10 mL",
+    "description": "Three-part sterile syringe without needle, polypropylene barrel with clear graduations.",
+    "category": "Laboratory consumables",
+    "unit": "Box of 100",
+    "price": 15.8,
+    "content": {
+      "amount": 100,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "GLW-BKR-100",
+    "name": "Low-Form Borosilicate Glass Vessel with Spout, 100 mL",
+    "description": "Griffin-type cylindrical vessel of borosilicate 3.3 glass with white graduations, 100 mL nominal capacity.",
+    "category": "Labware",
+    "unit": "Each",
+    "price": 4.2,
+    "content": {
+      "amount": 1,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "GLW-BKR-250",
+    "name": "Low-Form Borosilicate Glass Vessel with Spout, 250 mL",
+    "description": "Griffin-type cylindrical vessel of borosilicate 3.3 glass with white graduations, 250 mL nominal capacity.",
+    "category": "Labware",
+    "unit": "Each",
+    "price": 5.1,
+    "content": {
+      "amount": 1,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "GLW-BKR-600",
+    "name": "Low-Form Borosilicate Glass Vessel with Spout, 600 mL",
+    "description": "Griffin-type cylindrical vessel of borosilicate 3.3 glass with white graduations, 600 mL nominal capacity.",
+    "category": "Labware",
+    "unit": "Each",
+    "price": 7.3,
+    "content": {
+      "amount": 1,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "GLW-ERL-250",
+    "name": "Conical Flask, Narrow Neck, Borosilicate, 250 mL",
+    "description": "Erlenmeyer-type tapered vessel of borosilicate 3.3 glass with graduations and marking area.",
+    "category": "Labware",
+    "unit": "Each",
+    "price": 6.4,
+    "content": {
+      "amount": 1,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "GLW-CYL-100",
+    "name": "Graduated Measuring Cylinder, Class B, 100 mL",
+    "description": "Volumetric cylinder of borosilicate glass with hexagonal base and spout, tolerance ±1.0 mL.",
+    "category": "Labware",
+    "unit": "Each",
+    "price": 11.9,
+    "content": {
+      "amount": 1,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "GLW-BOT-500",
+    "name": "Media Storage Bottle with Screw Cap, 500 mL",
+    "description": "Borosilicate 3.3 glass bottle with GL 45 thread, autoclavable polypropylene cap and pouring ring.",
+    "category": "Labware",
+    "unit": "Each",
+    "price": 9.6,
+    "content": {
+      "amount": 1,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "GLW-WASH-500",
+    "name": "Wash Bottle, Wide-Mouth, LDPE, 500 mL",
+    "description": "Squeezable low-density polyethylene dispensing bottle with angled delivery tube.",
+    "category": "Labware",
+    "unit": "Each",
+    "price": 4.8,
+    "content": {
+      "amount": 1,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "GLW-RACK-50",
+    "name": "Tube Holder, Polypropylene, 4 × 5 Positions for 50 mL Tubes",
+    "description": "Autoclavable rack accommodating conical tubes of 28–30 mm diameter.",
+    "category": "Labware",
+    "unit": "Each",
+    "price": 12.7,
+    "content": {
+      "amount": 1,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "GLW-STIRB",
+    "name": "PTFE-Coated Magnetic Stirring Bars, Assorted Sizes",
+    "description": "Polytetrafluoroethylene-encapsulated alnico agitation elements, octagonal, 10–50 mm, set of 10.",
+    "category": "Labware",
+    "unit": "Set of 10",
+    "price": 18.9,
+    "content": {
+      "amount": 10,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "GLW-SPAT",
+    "name": "Stainless Steel Micro Spatula, Double-Ended, 150 mm",
+    "description": "Corrosion-resistant sample manipulation tool with flat and spoon-shaped ends.",
+    "category": "Labware",
+    "unit": "Each",
+    "price": 3.6,
+    "content": {
+      "amount": 1,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "WST-SHARP-2L",
+    "name": "Sharps Disposal Container, 2 L",
+    "description": "Puncture-resistant polypropylene receptacle with temporary and permanent closure for contaminated needles and blades.",
+    "category": "Waste and sterilization",
+    "unit": "Each",
+    "price": 5.9,
+    "content": {
+      "amount": 1,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "WST-BIO-BAG",
+    "name": "Autoclavable Biohazard Waste Bags, 60 × 80 cm",
+    "description": "Polypropylene bags with biohazard imprint for steam sterilization of solid infectious waste, 50 µm.",
+    "category": "Waste and sterilization",
+    "unit": "Pack of 100",
+    "price": 32.0,
+    "content": {
+      "amount": 100,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "WST-TAPE-AC",
+    "name": "Steam Sterilization Indicator Tape, 19 mm × 55 m",
+    "description": "Pressure-sensitive adhesive tape with chemical indicator stripes that change color upon autoclave exposure.",
+    "category": "Waste and sterilization",
+    "unit": "Roll",
+    "price": 7.4,
+    "content": {
+      "amount": 1,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "OFF-PAP-A4",
+    "name": "Multipurpose Copy Medium, 80 g/m², A4, 500 Sheets",
+    "description": "Uncoated white cut-size paper with 161 CIE whiteness for laser and inkjet reproduction.",
+    "category": "Office supplies",
+    "unit": "Ream of 500",
+    "price": 6.2,
+    "content": {
+      "amount": 500,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "OFF-PAP-LTR",
+    "name": "Multipurpose Copy Medium, 20 lb, Letter, 500 Sheets",
+    "description": "Uncoated white cut-size paper, 8.5 × 11 in, for laser and inkjet reproduction.",
+    "category": "Office supplies",
+    "unit": "Ream of 500",
+    "price": 6.4,
+    "content": {
+      "amount": 500,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "OFF-NOTE-76",
+    "name": "Repositionable Adhesive Note Pads, 76 × 76 mm, Yellow",
+    "description": "Pads of 100 sheets with low-tack adhesive strip permitting removal without residue.",
+    "category": "Office supplies",
+    "unit": "Pack of 12 pads",
+    "price": 9.9,
+    "content": {
+      "amount": 12,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "OFF-PEN-BLU",
+    "name": "Ballpoint Writing Instrument, Medium Point, Blue",
+    "description": "Retractable pen with 1.0 mm tungsten-carbide ball, oil-based ink and rubberized grip.",
+    "category": "Office supplies",
+    "unit": "Box of 12",
+    "price": 7.8,
+    "content": {
+      "amount": 12,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "OFF-PEN-BLK",
+    "name": "Ballpoint Writing Instrument, Medium Point, Black",
+    "description": "Retractable pen with 1.0 mm tungsten-carbide ball, oil-based ink and rubberized grip.",
+    "category": "Office supplies",
+    "unit": "Box of 12",
+    "price": 7.8,
+    "content": {
+      "amount": 12,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "OFF-MRK-PERM",
+    "name": "Permanent Marking Instrument, Fine Tip, Black, Solvent-Resistant",
+    "description": "Alcohol-based marker with 0.6 mm tip, legible on glass, plastics and cryogenic surfaces.",
+    "category": "Office supplies",
+    "unit": "Box of 12",
+    "price": 13.2,
+    "content": {
+      "amount": 12,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "OFF-MRK-DRY",
+    "name": "Dry-Erase Marking Instruments, Chisel Tip, Assorted Colors",
+    "description": "Low-odor markers for non-porous writing surfaces, wipe clean without ghosting.",
+    "category": "Office supplies",
+    "unit": "Set of 4",
+    "price": 5.6,
+    "content": {
+      "amount": 4,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "OFF-ERASER",
+    "name": "Whiteboard Cleaning Block, Felt",
+    "description": "Handheld felt surface cleaner for non-porous writing boards.",
+    "category": "Office supplies",
+    "unit": "Each",
+    "price": 3.1,
+    "content": {
+      "amount": 1,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "OFF-STAPLER",
+    "name": "Desktop Fastening Device, 25-Sheet Capacity",
+    "description": "Full-strip stapling apparatus accepting 26/6 and 24/6 wire fasteners, metal construction.",
+    "category": "Office supplies",
+    "unit": "Each",
+    "price": 14.9,
+    "content": {
+      "amount": 1,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "OFF-STAPLES",
+    "name": "Wire Fasteners 26/6, Galvanized",
+    "description": "Standard staples for desktop fastening devices, 5000 per box.",
+    "category": "Office supplies",
+    "unit": "Box of 5000",
+    "price": 2.4,
+    "content": {
+      "amount": 5000,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "OFF-BINDER",
+    "name": "Lever-Arch File, A4, 75 mm Spine",
+    "description": "Board-construction document retention file with lever mechanism and finger hole.",
+    "category": "Office supplies",
+    "unit": "Each",
+    "price": 4.3,
+    "content": {
+      "amount": 1,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "OFF-FOLDER",
+    "name": "Suspension Filing Pockets, Foolscap",
+    "description": "Kraft card hanging folders with metal rails and tabs for drawer filing systems.",
+    "category": "Office supplies",
+    "unit": "Box of 50",
+    "price": 19.7,
+    "content": {
+      "amount": 50,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "OFF-ENV-C4",
+    "name": "Self-Seal Envelopes, C4, White, 100 g/m²",
+    "description": "Window-less envelopes with peel-and-seal flap for unfolded A4 documents.",
+    "category": "Office supplies",
+    "unit": "Box of 250",
+    "price": 27.5,
+    "content": {
+      "amount": 250,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "OFF-LBL-A4",
+    "name": "Laser-Compatible Adhesive Labels, 21 per Sheet",
+    "description": "White permanent-adhesive labels, 63.5 × 38.1 mm, on A4 carrier sheets.",
+    "category": "Office supplies",
+    "unit": "Pack of 100 sheets",
+    "price": 16.8,
+    "content": {
+      "amount": 100,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "OFF-TAPE",
+    "name": "Transparent Adhesive Tape, 19 mm × 33 m",
+    "description": "Polypropylene pressure-sensitive tape for general packaging and sealing.",
+    "category": "Office supplies",
+    "unit": "Pack of 8 rolls",
+    "price": 8.4,
+    "content": {
+      "amount": 8,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "OFF-CALC",
+    "name": "Desktop Calculator, 12-Digit, Dual Power",
+    "description": "Arithmetic electronic calculator with solar and battery power, tax and currency functions.",
+    "category": "Office supplies",
+    "unit": "Each",
+    "price": 12.5,
+    "content": {
+      "amount": 1,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "OFF-USB-64",
+    "name": "USB Flash Storage Device, 64 GB, USB 3.2",
+    "description": "Portable solid-state data storage with retractable connector.",
+    "category": "Office supplies",
+    "unit": "Each",
+    "price": 11.9,
+    "content": {
+      "amount": 1,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "FAC-TOWEL",
+    "name": "Multifold Hand Towels, Two-Ply, White",
+    "description": "Absorbent interfolded paper towels for wall-mounted dispensers, 150 sheets per sleeve.",
+    "category": "Facilities and break room",
+    "unit": "Case of 20 sleeves",
+    "price": 36.0,
+    "content": {
+      "amount": 3000,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "FAC-WIPES",
+    "name": "Quaternary Ammonium Surface Disinfection Wipes",
+    "description": "Pre-saturated non-woven cloths with alcohol-free quaternary ammonium compound for hard non-porous surfaces.",
+    "category": "Facilities and break room",
+    "unit": "Canister of 200",
+    "price": 11.6,
+    "content": {
+      "amount": 200,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "FAC-SOAP",
+    "name": "Antimicrobial Hand Cleanser, 500 mL",
+    "description": "Liquid skin cleansing formulation containing 0.3% chloroxylenol, supplied with pump dispenser.",
+    "category": "Facilities and break room",
+    "unit": "Bottle (500 mL)",
+    "price": 5.2,
+    "content": {
+      "amount": 0.5,
+      "measure": "L"
+    }
+  },
+  {
+    "sku": "FAC-COFFEE",
+    "name": "Ground Roasted Arabica Coffee, Medium Roast, 1 kg",
+    "description": "Single-origin roasted and ground Coffea arabica beans for filter brewing.",
+    "category": "Facilities and break room",
+    "unit": "Bag (1 kg)",
+    "price": 21.9,
+    "content": {
+      "amount": 1,
+      "measure": "kg"
+    }
+  },
+  {
+    "sku": "FAC-CUPS",
+    "name": "Disposable Hot Beverage Cups, 240 mL, Paper",
+    "description": "Single-wall polyethylene-lined paperboard cups for hot beverages.",
+    "category": "Facilities and break room",
+    "unit": "Sleeve of 50",
+    "price": 4.9,
+    "content": {
+      "amount": 50,
+      "measure": "each"
+    }
+  },
+  {
+    "sku": "FAC-TRASH",
+    "name": "Refuse Sacks, 120 L, Heavy Duty, Black",
+    "description": "Low-density polyethylene waste liners, 60 µm, for large receptacles.",
+    "category": "Facilities and break room",
+    "unit": "Roll of 25",
+    "price": 9.3,
+    "content": {
+      "amount": 25,
+      "measure": "each"
+    }
+  }
+]
