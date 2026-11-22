@@ -14,7 +14,7 @@ import type { DemoResultsFile, EmbeddingIndex } from "@/lib/types";
 // Free-tier models are sometimes overloaded: be patient (up to ~1 minute per call).
 configureRetries({ attempts: 6, baseDelayMs: 2000, timeoutMs: 60_000, onRetry: (info) => console.warn(`    retry: ${info}`) });
 
-const STAGE_LOG = { extract: "extracting items", embed: "embedding queries", match: "searching catalog", price: "pricing" } as const;
+const STAGE_LOG = { extract: "extracting items", embed: "embedding queries", match: "searching catalog", verify: "verifying matches", price: "pricing" } as const;
 
 async function main() {
   const index = JSON.parse(
@@ -47,7 +47,8 @@ async function main() {
       const [a, b] = l.candidates;
       console.log(
         `  ${l.confidence.padEnd(6)} ${a.score.toFixed(3)} (+${l.margin.toFixed(3)})  "${l.sourceText}"  ->  ${a.sku}` +
-          (b ? `   [2nd ${b.sku} ${b.score.toFixed(3)}]` : ""),
+          (b ? `   [2nd ${b.sku} ${b.score.toFixed(3)}]` : "") +
+          `   check: ${l.verification?.fit ?? "-"} -> ${l.match?.sku ?? "NOT QUOTED"}${l.reranked ? " (reranked)" : ""}`,
       );
     }
   }

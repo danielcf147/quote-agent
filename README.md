@@ -15,10 +15,10 @@ The fictional catalog (80 lab and office products, `src/data/catalog.json`) deli
 ## How it works
 
 ```
-free text ──► 1. Extract ──► 2. Embed ──► 3. Match ──► 4. Price ──► quote + trace
-              LLM, strict     one batched   cosine vs.    unit conversion,
-              JSON schema     call          committed     thresholds,
-                                            vectors       totals
+free text ─► 1. Extract ─► 2. Embed ─► 3. Match ─► 4. Verify ─► 5. Price ─► quote + trace
+             LLM, strict    one batched  cosine vs.   LLM reads    thresholds,
+             JSON schema    call         committed    top-3 specs  unit conversion,
+                                         vectors      per item     totals
 ```
 
 Two AI providers are supported, Google Gemini and OpenAI (`src/lib/config.ts`). Whichever one embedded the catalog is used everywhere, because query vectors must come from the same model as the catalog vectors.
@@ -34,11 +34,11 @@ Providers retire model names often. Override the extraction model with `NEXT_PUB
 1. **Extract** (`src/lib/extract.ts`). The chat model, through the provider's OpenAI-compatible Chat Completions API with a strict JSON schema, returns one entry per product: the verbatim fragment from the request, a neutral English search query, a quantity and a normalized unit (`pack`, `each`, `L`, `mL`, `kg`, `g`). Works for any input language.
 2. **Embed**. All search queries are embedded in a single batched call (`src/lib/llm.ts`).
 3. **Match** (`src/lib/vector.ts`). Cosine similarity against every catalog vector, in memory. The catalog vectors were computed once by a script and are committed as JSON. At this size a linear scan takes about a millisecond, so a vector database would add cost and nothing else.
-4. **Decide and price** (`src/lib/pipeline.ts`, `src/lib/units.ts`).
-   - score at or above the high threshold: matched.
-   - between the two thresholds: quoted but flagged for human review.
-   - below the minimum: not quoted. The agent says it found nothing rather than guessing.
-   - runner-up within a small margin of the winner: flagged as ambiguous.
+4. **Verify** (`src/lib/verify.ts`). Embeddings put "a centrifuge" right next to "centrifuge tubes", and a "100 µL pipette" next to both the 10–100 µL and the 100–1000 µL models (0.764 vs 0.766 in the demo). One batched LLM call reads the specs of every shortlist and confirms the top hit, picks a lower-ranked candidate that fits better, or rejects them all. Its verdict (exact, partial or no fit) and one-line reason appear in the trace.
+5. **Decide and price** (`src/lib/pipeline.ts`, `src/lib/units.ts`).
+   - exact fit and score at or above the high threshold: matched.
+   - partial fit, or score between the two thresholds: quoted but flagged for human review.
+   - no fit, or score below the minimum: not quoted. The agent says it found nothing rather than guessing.
 
    Similarity scores are not comparable across embedding models, so each provider has its own thresholds.
    - "5 L" of a product sold in 4 L bottles becomes 2 bottles; "200 tips" sold in racks of 96 becomes 3 racks. Always rounded up, always explained.

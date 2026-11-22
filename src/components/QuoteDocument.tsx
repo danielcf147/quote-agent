@@ -66,7 +66,7 @@ export function QuoteDocument({ result, active, onHover }: Props) {
                     <span className="font-mono">{l.match!.sku}</span>
                     <span>·</span>
                     <span>{l.match!.unit}</span>
-                    {(l.confidence === "review" || l.ambiguous) && (
+                    {l.confidence === "review" && (
                       <span className="rounded bg-warn-soft px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-warn">
                         Review
                       </span>

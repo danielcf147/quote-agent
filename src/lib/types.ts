@@ -55,6 +55,10 @@ export interface QuoteLine {
   match: Candidate | null;
   candidates: Candidate[];
   confidence: Confidence;
+  /** What the LLM verifier said about the shortlist. */
+  verification: { sku: string | null; fit: "exact" | "partial" | "none"; reason: string } | null;
+  /** True when the verifier chose a candidate other than the top vector hit. */
+  reranked: boolean;
   /** Score gap between the best and second-best candidate. */
   margin: number;
   ambiguous: boolean;
@@ -69,7 +73,7 @@ export interface QuoteLine {
 }
 
 export interface StageTiming {
-  id: "extract" | "embed" | "match" | "price";
+  id: "extract" | "embed" | "match" | "verify" | "price";
   label: string;
   ms: number;
   detail: string;

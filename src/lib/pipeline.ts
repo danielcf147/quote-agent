@@ -14,6 +14,12 @@ import type {
   StageTiming,
 } from "./types";
 import { toSellingUnits } from "./units";
+import {
+  VERIFICATION_SCHEMA,
+  VERIFICATION_SYSTEM_PROMPT,
+  verificationUserPrompt,
+  type VerifierVerdict,
+} from "./verify";
 import { cosineSimilarity, topK } from "./vector";
 
 export class PipelineError extends Error {}
@@ -134,16 +140,54 @@ export async function runQuotePipeline(opts: PipelineOptions): Promise<QuoteResu
     detail: `cosine similarity · ${items.length} × ${vectors.length} comparisons · top ${TOP_K} kept`,
   });
 
-  // 4. Decide, convert units and price.
+  // 4. Let the LLM check the shortlists: similarity cannot tell a centrifuge from centrifuge tubes.
+  onStage?.("verify");
+  t = now();
+  const verification = await createStructuredCompletion<{ items: VerifierVerdict[] }>(provider, apiKey, {
+    system: VERIFICATION_SYSTEM_PROMPT,
+    user: verificationUserPrompt(
+      items,
+      matched.map((m) => m.ranked.map((r) => ({ sku: r.item.product.sku, score: r.score }))),
+    ),
+    schemaName: "match_verification",
+    schema: VERIFICATION_SCHEMA as unknown as Record<string, unknown>,
+    signal,
+  });
+  const verdicts = new Map(verification.value.items.map((v) => [v.index, v]));
+  const changed = matched.filter((m, i) => {
+    const v = verdicts.get(i);
+    return v && (v.choice === "NONE" || v.choice !== m.ranked[0].item.product.sku);
+  }).length;
+  stages.push({
+    id: "verify",
+    label: "Verify matches",
+    ms: Math.round(now() - t),
+    detail: `${cfg.chatModel} · top ${TOP_K} per item · ${changed} changed`,
+  });
+
+  // 5. Decide, convert units and price.
   onStage?.("price");
   t = now();
   const lines: QuoteLine[] = matched.map(({ item, ranked }, i) => {
     const candidates = ranked.map((r) => toCandidate(r.item.product, r.score));
     const best = ranked[0];
     const margin = ranked.length > 1 ? round4(ranked[0].score - ranked[1].score) : 1;
+    const raw = verdicts.get(i);
+    const chosenIdx = raw && raw.choice !== "NONE" ? ranked.findIndex((r) => r.item.product.sku === raw.choice) : -1;
+    // A verdict naming a SKU outside the shortlist is ignored; the line then goes to review.
+    const verdict: QuoteLine["verification"] = raw
+      ? chosenIdx >= 0 || raw.choice === "NONE"
+        ? { sku: chosenIdx >= 0 ? raw.choice : null, fit: raw.choice === "NONE" ? "none" : raw.fit, reason: raw.reason }
+        : { sku: null, fit: "partial", reason: "The verifier answered with a product outside the shortlist." }
+      : null;
+    const chosen = chosenIdx >= 0 ? ranked[chosenIdx] : verdict?.fit === "none" ? null : best;
     const confidence: Confidence =
-      best.score >= th.high ? "high" : best.score >= th.min ? "review" : "none";
-    const product = confidence === "none" ? null : best.item.product;
+      !chosen || chosen.score < th.min || verdict?.fit === "none"
+        ? "none"
+        : chosen.score >= th.high && verdict?.fit === "exact"
+          ? "high"
+          : "review";
+    const product = confidence === "none" ? null : chosen!.item.product;
     const conversion = product
       ? toSellingUnits(item.quantity, item.unit, product)
       : { packs: 0, note: null };
@@ -154,15 +198,17 @@ export async function runQuotePipeline(opts: PipelineOptions): Promise<QuoteResu
       span: findSpan(input, item.source_text),
       searchQuery: item.search_query,
       requested: { quantity: item.quantity, unit: item.unit, unitAsWritten: item.unit_as_written.trim() || null },
-      match: product ? candidates[0] : null,
+      match: product ? candidates[ranked.indexOf(chosen!)] : null,
       candidates,
       confidence,
+      verification: verdict,
+      reranked: !!product && product.sku !== best.item.product.sku,
       margin,
-      ambiguous: confidence !== "none" && margin < th.ambiguity,
+      ambiguous: margin < th.ambiguity,
       conversion,
       lineTotal: product ? round2(conversion.packs * product.price) : 0,
       lexical: {
-        overlapWithMatch: round4(overlap(item.source_text, best.item.product.name)),
+        overlapWithMatch: round4(overlap(item.source_text, (product ?? best.item.product).name)),
         keywordPick: keywordPick
           ? { sku: keywordPick.product.sku, name: keywordPick.product.name, score: round4(keywordPick.score) }
           : null,
@@ -171,7 +217,7 @@ export async function runQuotePipeline(opts: PipelineOptions): Promise<QuoteResu
   });
   const subtotal = round2(lines.reduce((s, l) => s + l.lineTotal, 0));
   const unmatched = lines.filter((l) => l.confidence === "none").length;
-  const review = lines.filter((l) => l.confidence === "review" || l.ambiguous).length;
+  const review = lines.filter((l) => l.confidence === "review").length;
   if (unmatched) warnings.push(`${unmatched} item${unmatched > 1 ? "s" : ""} had no confident catalog match and ${unmatched > 1 ? "were" : "was"} left out of the total.`);
   if (review) warnings.push(`${review} line${review > 1 ? "s" : ""} flagged for human review.`);
   stages.push({
@@ -182,8 +228,8 @@ export async function runQuotePipeline(opts: PipelineOptions): Promise<QuoteResu
   });
 
   const usage = {
-    promptTokens: extraction.promptTokens,
-    completionTokens: extraction.completionTokens,
+    promptTokens: extraction.promptTokens + verification.promptTokens,
+    completionTokens: extraction.completionTokens + verification.completionTokens,
     embeddingTokens: embedded.tokens,
   };
   const estimatedCostUsd =

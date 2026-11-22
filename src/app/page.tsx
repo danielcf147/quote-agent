@@ -16,7 +16,11 @@ const STEPS = [
   },
   {
     title: "Match",
-    body: "Cosine similarity against every product, in memory. No vector database: at this catalog size a linear scan takes about a millisecond. Two thresholds decide between matched, needs review and not quoted.",
+    body: "Cosine similarity against every product, in memory. No vector database: at this catalog size a linear scan takes about a millisecond. The top 3 candidates per item are kept.",
+  },
+  {
+    title: "Verify",
+    body: "Similarity cannot tell a centrifuge from centrifuge tubes, or a 10–100 µL pipette from a 100–1000 µL one. One more LLM call reads the specs of each shortlist and confirms, re-ranks or rejects. Thresholds then decide between matched, needs review and not quoted.",
   },
   {
     title: "Price",
@@ -69,7 +73,7 @@ export default function Home() {
 
       <section id="how-it-works" className="scroll-mt-6 pt-20">
         <h2 className="text-xl font-semibold tracking-tight text-ink">How it works</h2>
-        <ol className="mt-6 grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
+        <ol className="mt-6 grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-5">
           {STEPS.map((s, i) => (
             <li key={s.title} className="bg-surface p-5">
               <p className="font-mono text-xs text-ink-3">0{i + 1}</p>

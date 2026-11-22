@@ -20,6 +20,7 @@ const STAGE_LABEL: Record<StageTiming["id"], string> = {
   extract: "Reading the request",
   embed: "Embedding search queries",
   match: "Searching the catalog",
+  verify: "Checking the matches",
   price: "Pricing the quote",
 };
 

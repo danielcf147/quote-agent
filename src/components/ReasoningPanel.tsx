@@ -23,17 +23,15 @@ export function ReasoningPanel({ result, active, onHover }: Props) {
             {(totalMs / 1000).toFixed(2)} s · {tokens.toLocaleString("en-US")} tokens · {formatCost(result.estimatedCostUsd)}
           </p>
         </div>
-        <ol className="mt-3 grid gap-2 sm:grid-cols-2">
+        <ol className="mt-3 divide-y divide-line overflow-hidden rounded-lg bg-surface-2">
           {result.stages.map((st, i) => (
-            <li key={st.id} className="relative rounded-lg bg-surface-2 px-3 py-2.5">
-              <p className="flex items-center justify-between gap-2 text-xs">
-                <span className="font-medium text-ink">
-                  <span className="mr-1.5 font-mono text-ink-3">{i + 1}</span>
-                  {st.label}
-                </span>
-                <span className="font-mono text-ink-3 tabular">{st.ms} ms</span>
-              </p>
-              <p className="mt-1 text-[11px] leading-snug text-ink-3">{st.detail}</p>
+            <li key={st.id} className="grid grid-cols-[20px_minmax(0,1fr)_auto] items-baseline gap-x-2 px-3 py-2 text-xs">
+              <span className="font-mono text-ink-3">{i + 1}</span>
+              <span className="min-w-0">
+                <span className="font-medium text-ink">{st.label}</span>
+                <span className="ml-2 text-[11px] text-ink-3">{st.detail}</span>
+              </span>
+              <span className="font-mono text-ink-3 tabular">{st.ms} ms</span>
             </li>
           ))}
         </ol>
@@ -67,12 +65,19 @@ const VERDICT = {
 } as const;
 
 function decisionText(l: QuoteLine, th: Thresholds): string {
-  const s = score(l.candidates[0].score);
-  if (l.confidence === "high") return `Similarity ${s} ≥ ${th.high.toFixed(2)}, so the top candidate was accepted.`;
-  if (l.confidence === "review")
-    return `Similarity ${s} is between ${th.min.toFixed(2)} and ${th.high.toFixed(2)}: quoted, but flagged for a human to confirm.`;
-  return `Best similarity ${s} < ${th.min.toFixed(2)}: nothing in the catalog is close enough, so the item was left out instead of guessing.`;
+  const top = l.candidates[0].score;
+  const v = l.verification;
+  if (top < th.min)
+    return `Best similarity ${score(top)} < ${th.min.toFixed(2)}: nothing in the catalog is close enough, so the item was left out instead of guessing.`;
+  if (!l.match) return "The verifier found that none of the nearest products is what was asked for, so the item was left out instead of quoting something merely related.";
+  const s = score(l.match.score);
+  const picked = l.reranked ? "The verifier picked a lower-ranked candidate whose specs fit better. " : "";
+  if (l.confidence === "high") return `${picked}Exact fit and similarity ${s} ≥ ${th.high.toFixed(2)}: accepted.`;
+  if (v?.fit === "partial") return `${picked}Same kind of product, but a spec is unstated or uncertain: quoted and flagged for a human to confirm.`;
+  return `${picked}Similarity ${s} is below ${th.high.toFixed(2)}: quoted, but flagged for a human to confirm.`;
 }
+
+const FIT_LABEL = { exact: "Exact fit", partial: "Partial fit", none: "No fit" } as const;
 
 function unitText(l: QuoteLine): string {
   const { quantity, unit, unitAsWritten } = l.requested;
@@ -134,27 +139,48 @@ function LineTrace({
             {l.candidates.map((c, rank) => (
               <li key={c.sku}>
                 <div className="flex items-baseline justify-between gap-3">
-                  <span className={`min-w-0 truncate ${rank === 0 ? "font-medium text-ink" : "text-ink-2"}`} title={c.name}>
-                    {rank === 0 && l.match ? "✓ " : ""}
+                  <span
+                    className={`min-w-0 truncate ${c.sku === l.match?.sku ? "font-medium text-ink" : "text-ink-2"}`}
+                    title={c.name}
+                  >
+                    {c.sku === l.match?.sku ? "✓ " : ""}
                     {c.name}
                   </span>
                   <span className={`font-mono tabular ${rank === 0 ? "text-ink" : "text-ink-3"}`}>{score(c.score)}</span>
                 </div>
-                <ScoreBar value={c.score} th={th} color={rank === 0 ? hue(l.index) : "var(--line-strong)"} />
+                <ScoreBar
+                  value={c.score}
+                  th={th}
+                  color={c.sku === l.match?.sku || (!l.match && rank === 0) ? hue(l.index) : "var(--line-strong)"}
+                />
               </li>
             ))}
           </ul>
         </dd>
 
+        {l.verification && (
+          <>
+            <dt className="pt-0.5 text-ink-3">LLM check</dt>
+            <dd className="leading-relaxed text-ink-2">
+              <span
+                className={`mr-1.5 font-medium ${
+                  l.verification.fit === "exact" ? "text-good" : l.verification.fit === "partial" ? "text-warn" : "text-bad"
+                }`}
+              >
+                {FIT_LABEL[l.verification.fit]}.
+              </span>
+              {l.verification.reason}
+              {l.ambiguous && (
+                <span className="mt-1 block text-ink-3">
+                  Similarity alone could not separate the top two ({score(l.margin)} apart).
+                </span>
+              )}
+            </dd>
+          </>
+        )}
+
         <dt className="pt-0.5 text-ink-3">Decision</dt>
-        <dd className="leading-relaxed text-ink-2">
-          {decisionText(l, th)}
-          {l.ambiguous && (
-            <span className="mt-1 block text-warn">
-              Runner-up is only {score(l.margin)} behind (&lt; {th.ambiguity}), so the choice is ambiguous.
-            </span>
-          )}
-        </dd>
+        <dd className="leading-relaxed text-ink-2">{decisionText(l, th)}</dd>
 
         {l.match && (
           <>
@@ -186,14 +212,19 @@ function LineTrace({
   );
 }
 
-/** Similarity bar on a 0–1 scale with ticks at the two decision thresholds. */
+/**
+ * Similarity bar with ticks at the two decision thresholds. The scale starts a
+ * little below the minimum threshold so differences in the relevant range are visible.
+ */
 function ScoreBar({ value, color, th }: { value: number; color: string; th: Thresholds }) {
-  const w = Math.max(0, Math.min(1, value)) * 100;
+  const lo = Math.max(0, th.min - 0.3);
+  const pos = (v: number) => Math.max(0, Math.min(1, (v - lo) / (1 - lo))) * 100;
+  const w = pos(value);
   return (
     <div className="relative mt-1 h-1.5 rounded-full bg-surface-2" aria-hidden>
       <div className="absolute inset-y-0 left-0 rounded-full" style={{ width: `${w}%`, background: color }} />
-      <div className="absolute -inset-y-0.5 w-px bg-ink-3/50" style={{ left: `${th.min * 100}%` }} />
-      <div className="absolute -inset-y-0.5 w-px bg-ink-3/50" style={{ left: `${th.high * 100}%` }} />
+      <div className="absolute -inset-y-0.5 w-px bg-ink-3/50" style={{ left: `${pos(th.min)}%` }} />
+      <div className="absolute -inset-y-0.5 w-px bg-ink-3/50" style={{ left: `${pos(th.high)}%` }} />
     </div>
   );
 }

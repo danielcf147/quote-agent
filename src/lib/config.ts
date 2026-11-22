@@ -65,7 +65,9 @@ export const PROVIDERS: Record<ProviderId, ProviderConfig> = {
  */
 export const THRESHOLDS: Record<ProviderId, { high: number; min: number; ambiguity: number }> = {
   openai: { high: 0.55, min: 0.4, ambiguity: 0.02 },
-  gemini: { high: 0.7, min: 0.58, ambiguity: 0.015 },
+  // Calibrated on the demo examples: correct matches scored 0.68–0.80, near-misses 0.60–0.72.
+  // The verifier step does the fine-grained filtering; these only bound it.
+  gemini: { high: 0.68, min: 0.6, ambiguity: 0.015 },
 };
 
 export const TOP_K = 3;
