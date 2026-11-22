@@ -26,7 +26,7 @@ function pickProvider(): ProviderId {
 }
 
 // Free-tier models are sometimes overloaded: be patient (up to ~1 minute per call).
-configureRetries({ attempts: 6, baseDelayMs: 2000, onRetry: (info) => console.warn(`  retry: ${info}`) });
+configureRetries({ attempts: 6, baseDelayMs: 2000, timeoutMs: 60_000, onRetry: (info) => console.warn(`  retry: ${info}`) });
 
 async function main() {
   const provider = pickProvider();

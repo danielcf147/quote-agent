@@ -12,7 +12,9 @@ import { assertIndexReady, runQuotePipeline } from "@/lib/pipeline";
 import type { DemoResultsFile, EmbeddingIndex } from "@/lib/types";
 
 // Free-tier models are sometimes overloaded: be patient (up to ~1 minute per call).
-configureRetries({ attempts: 6, baseDelayMs: 2000, onRetry: (info) => console.warn(`  retry: ${info}`) });
+configureRetries({ attempts: 6, baseDelayMs: 2000, timeoutMs: 60_000, onRetry: (info) => console.warn(`    retry: ${info}`) });
+
+const STAGE_LOG = { extract: "extracting items", embed: "embedding queries", match: "searching catalog", price: "pricing" } as const;
 
 async function main() {
   const index = JSON.parse(
@@ -25,19 +27,22 @@ async function main() {
 
   const out: DemoResultsFile = { generatedAt: new Date().toISOString(), results: {} };
   let total = 0;
-  for (const ex of EXAMPLES) {
+  for (const [n, ex] of EXAMPLES.entries()) {
+    console.log(`\n[${n + 1}/${EXAMPLES.length}] ${ex.title}`);
+    const started = Date.now();
     const result = await runQuotePipeline({
       input: ex.text,
       apiKey,
       index,
       mode: "demo",
       maxItems: LIMITS.byok.maxItems,
+      onStage: (stage) => console.log(`    ${STAGE_LOG[stage]}... (${((Date.now() - started) / 1000).toFixed(1)} s)`),
     });
     out.results[ex.id] = result;
     total += result.estimatedCostUsd;
 
     // Calibration table: use it to tune the thresholds in src/lib/config.ts.
-    console.log(`\n${ex.title}  (${result.quoteNumber})`);
+    console.log(`  done in ${((Date.now() - started) / 1000).toFixed(1)} s, ${result.quoteNumber}:`);
     for (const l of result.lines) {
       const [a, b] = l.candidates;
       console.log(

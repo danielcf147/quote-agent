@@ -26,11 +26,17 @@ export class ProviderError extends Error {
 /** Overloaded or rate-limited: worth trying again after a pause. */
 const RETRYABLE = new Set([429, 500, 502, 503, 504]);
 
-const retryPolicy = { attempts: 3, baseDelayMs: 1000, onRetry: undefined as ((info: string) => void) | undefined };
+const retryPolicy = {
+  attempts: 3,
+  baseDelayMs: 1000,
+  /** Each attempt is abandoned after this long, so a stalled connection cannot hang forever. */
+  timeoutMs: 20_000,
+  onRetry: undefined as ((info: string) => void) | undefined,
+};
 
 /**
  * Batch scripts can afford to wait longer than an interactive request.
- * Defaults: 3 attempts, 1 s then 2 s (plus jitter), which fits the live-mode timeout.
+ * Defaults: 3 attempts of up to 20 s, waiting 1 s then 2 s (plus jitter) between them.
  */
 export function configureRetries(opts: Partial<typeof retryPolicy>) {
   Object.assign(retryPolicy, opts);
@@ -55,7 +61,12 @@ async function postJson<T>(url: string, headers: Record<string, string>, body: u
   for (let attempt = 1; ; attempt++) {
     try {
       return await postJsonOnce<T>(url, headers, body, signal);
-    } catch (err) {
+    } catch (caught) {
+      let err = caught;
+      // Our own per-attempt timeout (not the caller's signal): report it as a retryable 504.
+      if (!signal?.aborted && caught instanceof Error && (caught.name === "TimeoutError" || caught.name === "AbortError")) {
+        err = new ProviderError(`No response within ${retryPolicy.timeoutMs / 1000} s`, 504);
+      }
       const retryable = err instanceof ProviderError && RETRYABLE.has(err.status);
       if (!retryable || attempt >= retryPolicy.attempts || signal?.aborted) throw err;
       const retryAfterMs = (err as ProviderError).retryAfterSec * 1000;
@@ -70,11 +81,12 @@ async function postJson<T>(url: string, headers: Record<string, string>, body: u
 }
 
 async function postJsonOnce<T>(url: string, headers: Record<string, string>, body: unknown, signal?: AbortSignal): Promise<T> {
+  const timeout = AbortSignal.timeout(retryPolicy.timeoutMs);
   const res = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json", ...headers },
     body: JSON.stringify(body),
-    signal,
+    signal: signal ? AbortSignal.any([signal, timeout]) : timeout,
   });
   if (!res.ok) {
     let message = `Request failed (${res.status})`;
