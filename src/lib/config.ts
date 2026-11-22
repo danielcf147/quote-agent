@@ -7,6 +7,14 @@
  */
 export type ProviderId = "openai" | "gemini";
 
+/**
+ * Chat model overrides. NEXT_PUBLIC_ so the same value reaches the scripts,
+ * the server and the browser (bring-your-own-key), which must all agree.
+ * Providers retire model names often; change the model here without code edits.
+ */
+const OPENAI_CHAT_MODEL = process.env.NEXT_PUBLIC_OPENAI_CHAT_MODEL || "gpt-4.1-mini";
+const GEMINI_CHAT_MODEL = process.env.NEXT_PUBLIC_GEMINI_CHAT_MODEL || "gemini-3.8-flash";
+
 export interface ProviderConfig {
   id: ProviderId;
   label: string;
@@ -27,7 +35,7 @@ export const PROVIDERS: Record<ProviderId, ProviderConfig> = {
   openai: {
     id: "openai",
     label: "OpenAI",
-    chatModel: "gpt-4.1-mini",
+    chatModel: OPENAI_CHAT_MODEL,
     embeddingModel: "text-embedding-3-small",
     dimensions: 512,
     envKey: "OPENAI_API_KEY",
@@ -39,7 +47,7 @@ export const PROVIDERS: Record<ProviderId, ProviderConfig> = {
   gemini: {
     id: "gemini",
     label: "Gemini",
-    chatModel: "gemini-2.5-flash",
+    chatModel: GEMINI_CHAT_MODEL,
     embeddingModel: "gemini-embedding-001",
     dimensions: 768,
     envKey: "GEMINI_API_KEY",

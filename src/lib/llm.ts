@@ -110,8 +110,8 @@ export async function createStructuredCompletion<T>(
     {
       model: cfg.chatModel,
       temperature: 0,
-      // Extraction needs no deliberation; skipping Gemini's thinking step makes it faster and cheaper.
-      ...(provider === "gemini" ? { reasoning_effort: "none" } : {}),
+      // Extraction needs little deliberation; the lowest thinking level keeps Gemini fast and cheap.
+      ...(provider === "gemini" ? { reasoning_effort: "low" } : {}),
       messages: [
         { role: "system", content: opts.system },
         { role: "user", content: opts.user },

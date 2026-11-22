@@ -63,5 +63,5 @@ async function main() {
 
 main().catch((err) => {
   console.error(err instanceof Error ? err.message : err);
-  process.exit(1);
+  process.exitCode = 1; // not process.exit(): on Windows it can crash libuv while fetch sockets are closing
 });

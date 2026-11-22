@@ -25,9 +25,11 @@ Two AI providers are supported, Google Gemini and OpenAI (`src/lib/config.ts`). 
 
 | | Gemini (default) | OpenAI |
 | --- | --- | --- |
-| Extraction | `gemini-2.5-flash`, thinking off | `gpt-4.1-mini` |
+| Extraction | `gemini-3.8-flash`, low thinking | `gpt-4.1-mini` |
 | Embeddings | `gemini-embedding-001`, 768 dims, document/query task types | `text-embedding-3-small`, 512 dims |
 | Free tier | yes | no |
+
+Providers retire model names often. Override the extraction model with `NEXT_PUBLIC_GEMINI_CHAT_MODEL` or `NEXT_PUBLIC_OPENAI_CHAT_MODEL` (see `.env.example`) and re-run `npm run precompute`.
 
 1. **Extract** (`src/lib/extract.ts`). The chat model, through the provider's OpenAI-compatible Chat Completions API with a strict JSON schema, returns one entry per product: the verbatim fragment from the request, a neutral English search query, a quantity and a normalized unit (`pack`, `each`, `L`, `mL`, `kg`, `g`). Works for any input language.
 2. **Embed**. All search queries are embedded in a single batched call (`src/lib/llm.ts`).
