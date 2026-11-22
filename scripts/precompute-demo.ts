@@ -7,8 +7,12 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { LIMITS, PROVIDERS } from "@/lib/config";
 import { EXAMPLES } from "@/lib/examples";
+import { configureRetries } from "@/lib/llm";
 import { assertIndexReady, runQuotePipeline } from "@/lib/pipeline";
 import type { DemoResultsFile, EmbeddingIndex } from "@/lib/types";
+
+// Free-tier models are sometimes overloaded: be patient (up to ~1 minute per call).
+configureRetries({ attempts: 6, baseDelayMs: 2000, onRetry: (info) => console.warn(`  retry: ${info}`) });
 
 async function main() {
   const index = JSON.parse(

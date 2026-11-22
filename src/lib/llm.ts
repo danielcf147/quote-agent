@@ -17,12 +17,59 @@ export class ProviderError extends Error {
   constructor(
     message: string,
     public status: number,
+    public retryAfterSec = 0,
   ) {
     super(message);
   }
 }
 
+/** Overloaded or rate-limited: worth trying again after a pause. */
+const RETRYABLE = new Set([429, 500, 502, 503, 504]);
+
+const retryPolicy = { attempts: 3, baseDelayMs: 1000, onRetry: undefined as ((info: string) => void) | undefined };
+
+/**
+ * Batch scripts can afford to wait longer than an interactive request.
+ * Defaults: 3 attempts, 1 s then 2 s (plus jitter), which fits the live-mode timeout.
+ */
+export function configureRetries(opts: Partial<typeof retryPolicy>) {
+  Object.assign(retryPolicy, opts);
+}
+
+function sleep(ms: number, signal?: AbortSignal) {
+  return new Promise<void>((resolve, reject) => {
+    if (signal?.aborted) return reject(signal.reason);
+    const t = setTimeout(resolve, ms);
+    signal?.addEventListener(
+      "abort",
+      () => {
+        clearTimeout(t);
+        reject(signal.reason);
+      },
+      { once: true },
+    );
+  });
+}
+
 async function postJson<T>(url: string, headers: Record<string, string>, body: unknown, signal?: AbortSignal): Promise<T> {
+  for (let attempt = 1; ; attempt++) {
+    try {
+      return await postJsonOnce<T>(url, headers, body, signal);
+    } catch (err) {
+      const retryable = err instanceof ProviderError && RETRYABLE.has(err.status);
+      if (!retryable || attempt >= retryPolicy.attempts || signal?.aborted) throw err;
+      const retryAfterMs = (err as ProviderError).retryAfterSec * 1000;
+      const backoff = retryPolicy.baseDelayMs * 2 ** (attempt - 1) * (0.8 + Math.random() * 0.4);
+      const delay = Math.min(Math.max(backoff, retryAfterMs), 60_000);
+      retryPolicy.onRetry?.(
+        `${(err as ProviderError).status} ${(err as Error).message.slice(0, 80)} (attempt ${attempt}/${retryPolicy.attempts}, retrying in ${(delay / 1000).toFixed(1)} s)`,
+      );
+      await sleep(delay, signal);
+    }
+  }
+}
+
+async function postJsonOnce<T>(url: string, headers: Record<string, string>, body: unknown, signal?: AbortSignal): Promise<T> {
   const res = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json", ...headers },
@@ -39,7 +86,8 @@ async function postJson<T>(url: string, headers: Record<string, string>, body: u
     } catch {
       // keep the generic message
     }
-    throw new ProviderError(message, res.status);
+    const retryAfter = Number.parseInt(res.headers.get("retry-after") ?? "", 10);
+    throw new ProviderError(message, res.status, Number.isFinite(retryAfter) ? retryAfter : 0);
   }
   return (await res.json()) as T;
 }

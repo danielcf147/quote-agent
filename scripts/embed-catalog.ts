@@ -11,7 +11,7 @@
 import { writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { PROVIDERS, type ProviderId } from "@/lib/config";
-import { createEmbeddings } from "@/lib/llm";
+import { configureRetries, createEmbeddings } from "@/lib/llm";
 import { catalogEmbeddingInputs } from "@/lib/pipeline";
 
 function pickProvider(): ProviderId {
@@ -24,6 +24,9 @@ function pickProvider(): ProviderId {
   if (process.env.OPENAI_API_KEY) return "openai";
   throw new Error("Set GEMINI_API_KEY or OPENAI_API_KEY (for example in .env.local) before running this script.");
 }
+
+// Free-tier models are sometimes overloaded: be patient (up to ~1 minute per call).
+configureRetries({ attempts: 6, baseDelayMs: 2000, onRetry: (info) => console.warn(`  retry: ${info}`) });
 
 async function main() {
   const provider = pickProvider();
