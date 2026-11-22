@@ -1,18 +1,18 @@
 import { QuoteApp } from "@/components/QuoteApp";
 import { catalog } from "@/lib/catalog";
-import { CHAT_MODEL, EMBEDDING_DIMENSIONS, EMBEDDING_MODEL } from "@/lib/config";
 import { money } from "@/lib/format";
+import { displayProvider as ai } from "@/lib/provider";
 
 const REPO_URL = process.env.NEXT_PUBLIC_REPO_URL;
 
 const STEPS = [
   {
     title: "Extract",
-    body: `${CHAT_MODEL} turns free text, in any language, into line items with a verbatim source fragment, a neutral search query, a quantity and a normalized unit. Structured output with a strict JSON schema, so the response always parses.`,
+    body: `${ai.chatModel} turns free text, in any language, into line items with a verbatim source fragment, a neutral search query, a quantity and a normalized unit. Structured output with a strict JSON schema, so the response always parses.`,
   },
   {
     title: "Embed",
-    body: `Each search query is embedded with ${EMBEDDING_MODEL} (${EMBEDDING_DIMENSIONS} dims) in one batched call. The ${catalog.length} catalog products were embedded once by a script and the vectors are committed as JSON.`,
+    body: `Each search query is embedded with ${ai.embeddingModel} (${ai.dimensions} dims) in one batched call. The ${catalog.length} catalog products were embedded once by a script and the vectors are committed as JSON.`,
   },
   {
     title: "Match",

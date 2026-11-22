@@ -6,6 +6,7 @@ import { LIMITS } from "@/lib/config";
 import { EXAMPLES } from "@/lib/examples";
 import type { DemoResultsFile, QuoteResult, RunMode, StageTiming } from "@/lib/types";
 import { HighlightedRequest } from "./HighlightedRequest";
+import { activeProvider, displayProvider } from "@/lib/provider";
 import { KeyField, readStoredKey, useStoredKey } from "./KeyField";
 import { QuoteDocument } from "./QuoteDocument";
 import { ReasoningPanel } from "./ReasoningPanel";
@@ -79,7 +80,7 @@ export function QuoteApp() {
       let next: QuoteResult;
       if (mode === "byok") {
         const apiKey = readStoredKey();
-        if (!apiKey) throw new Error("Add your OpenAI API key first.");
+        if (!apiKey) throw new Error(`Add your ${displayProvider.label} API key first.`);
         setStage("extract");
         // Loaded on demand so demo visitors never download the vectors.
         const [{ runQuotePipeline }, embeddings] = await Promise.all([
@@ -232,7 +233,12 @@ export function QuoteApp() {
 function ModeSwitch({ mode, onChange, live }: { mode: RunMode; onChange: (m: RunMode) => void; live: boolean }) {
   const options: { id: RunMode; label: string; hint: string; disabled?: boolean }[] = [
     { id: "demo", label: "Demo", hint: "Precomputed, no key needed" },
-    { id: "byok", label: "Your OpenAI key", hint: "Try your own text" },
+    {
+      id: "byok",
+      label: `Your ${displayProvider.label} key`,
+      hint: activeProvider ? "Try your own text" : "Run npm run embed first",
+      disabled: !activeProvider,
+    },
     { id: "live", label: "Live", hint: live ? "Hosted key, rate-limited" : "Not enabled here", disabled: !live },
   ];
   return (

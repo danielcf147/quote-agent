@@ -5,18 +5,19 @@
  */
 import { readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { LIMITS } from "@/lib/config";
+import { LIMITS, PROVIDERS } from "@/lib/config";
 import { EXAMPLES } from "@/lib/examples";
-import { runQuotePipeline } from "@/lib/pipeline";
+import { assertIndexReady, runQuotePipeline } from "@/lib/pipeline";
 import type { DemoResultsFile, EmbeddingIndex } from "@/lib/types";
 
 async function main() {
-  const apiKey = process.env.OPENAI_API_KEY;
-  if (!apiKey) throw new Error("Set OPENAI_API_KEY (for example in .env.local) before running this script.");
-
   const index = JSON.parse(
     readFileSync(join(process.cwd(), "src/data/catalog-embeddings.json"), "utf8"),
   ) as EmbeddingIndex;
+  const cfg = PROVIDERS[assertIndexReady(index)];
+  const apiKey = process.env[cfg.envKey];
+  if (!apiKey) throw new Error(`The catalog was embedded with ${cfg.label}; set ${cfg.envKey} to precompute the demo.`);
+  console.log(`Running the ${EXAMPLES.length} demo examples with ${cfg.label} (${cfg.chatModel} + ${cfg.embeddingModel})...`);
 
   const out: DemoResultsFile = { generatedAt: new Date().toISOString(), results: {} };
   let total = 0;
@@ -44,7 +45,8 @@ async function main() {
 
   const file = join(process.cwd(), "src/data/demo-results.json");
   writeFileSync(file, JSON.stringify(out, null, 2) + "\n");
-  console.log(`\nWrote ${file}. Estimated API cost: $${total.toFixed(5)}`);
+  console.log(`\nWrote ${file}. Estimated cost at paid-tier rates: $${total.toFixed(5)}`);
+  console.log("Columns: decision, top score (+gap to runner-up), customer text -> best SKU. Thresholds live in src/lib/config.ts.");
 }
 
 main().catch((err) => {

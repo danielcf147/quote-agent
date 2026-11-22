@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useSyncExternalStore } from "react";
+import { displayProvider as provider } from "@/lib/provider";
 
-const STORAGE_KEY = "quote-agent:openai-key";
+const STORAGE_KEY = `quote-agent:${provider.id}-key`;
 
 export function readStoredKey(): string | null {
   try {
@@ -36,7 +37,7 @@ export function useStoredKey(): string | null {
 
 /**
  * The visitor's key lives only in this tab's sessionStorage and is sent
- * straight from the browser to api.openai.com. It never reaches our server.
+ * straight from the browser to the provider's API. It never reaches our server.
  */
 export function KeyField() {
   const stored = useStoredKey();
@@ -71,7 +72,7 @@ export function KeyField() {
           }}
         >
           <label htmlFor="api-key" className="sr-only">
-            OpenAI API key
+            {provider.label} API key
           </label>
           <input
             id="api-key"
@@ -80,7 +81,7 @@ export function KeyField() {
             spellCheck={false}
             value={draft}
             onChange={(e) => setDraft(e.target.value)}
-            placeholder="sk-…"
+            placeholder={provider.keyPlaceholder}
             className="h-10 min-w-0 flex-1 rounded-lg border border-line bg-surface px-3 font-mono text-sm text-ink outline-none placeholder:text-ink-3 focus:border-accent focus:ring-3 focus:ring-accent/15"
           />
           <button
@@ -98,8 +99,15 @@ export function KeyField() {
           it is never written to cookies, localStorage or any server.
         </li>
         <li>
-          <strong className="font-medium text-ink-2">Sent only to api.openai.com</strong>, directly from your browser. This
-          site&rsquo;s server never sees it. A typical request costs well under one cent.
+          <strong className="font-medium text-ink-2">Sent only to {provider.host}</strong>, directly from your browser. This
+          site&rsquo;s server never sees it.
+        </li>
+        <li>
+          No key yet?{" "}
+          <a href={provider.keyUrl} target="_blank" rel="noreferrer" className="text-accent underline-offset-2 hover:underline">
+            Get one from {provider.id === "gemini" ? "Google AI Studio (free tier available)" : "the OpenAI dashboard"}
+          </a>
+          .
         </li>
       </ul>
     </div>

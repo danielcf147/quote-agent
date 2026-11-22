@@ -29,8 +29,8 @@ export const EXTRACTION_SCHEMA = {
               "pack = a selling container (box, case, bottle, ream, roll, pack, bag). each = individual pieces. L/mL/kg/g = volume or mass.",
           },
           unit_as_written: {
-            type: ["string", "null"],
-            description: "The unit word exactly as the customer wrote it, or null.",
+            type: "string",
+            description: "The unit word exactly as the customer wrote it, or an empty string if there is none.",
           },
         },
       },

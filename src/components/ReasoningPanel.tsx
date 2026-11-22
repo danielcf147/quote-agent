@@ -1,7 +1,8 @@
 import type { CSSProperties } from "react";
-import { AMBIGUITY_MARGIN, HIGH_CONFIDENCE, MIN_SIMILARITY } from "@/lib/config";
 import { formatCost, hue, pct, score } from "@/lib/format";
 import type { QuoteLine, QuoteResult } from "@/lib/types";
+
+type Thresholds = QuoteResult["thresholds"];
 
 interface Props {
   result: QuoteResult;
@@ -51,7 +52,7 @@ export function ReasoningPanel({ result, active, onHover }: Props) {
       <ol className="space-y-3">
         {result.lines.map((l, i) => (
           <li key={l.index} className="rise" style={{ animationDelay: `${i * 60}ms` }}>
-            <LineTrace line={l} active={active === l.index} onHover={onHover} />
+            <LineTrace line={l} th={result.thresholds} active={active === l.index} onHover={onHover} />
           </li>
         ))}
       </ol>
@@ -65,12 +66,12 @@ const VERDICT = {
   none: { label: "Not quoted", cls: "bg-bad-soft text-bad" },
 } as const;
 
-function decisionText(l: QuoteLine): string {
+function decisionText(l: QuoteLine, th: Thresholds): string {
   const s = score(l.candidates[0].score);
-  if (l.confidence === "high") return `Similarity ${s} ≥ ${HIGH_CONFIDENCE.toFixed(2)}, so the top candidate was accepted.`;
+  if (l.confidence === "high") return `Similarity ${s} ≥ ${th.high.toFixed(2)}, so the top candidate was accepted.`;
   if (l.confidence === "review")
-    return `Similarity ${s} is between ${MIN_SIMILARITY.toFixed(2)} and ${HIGH_CONFIDENCE.toFixed(2)}: quoted, but flagged for a human to confirm.`;
-  return `Best similarity ${s} < ${MIN_SIMILARITY.toFixed(2)}: nothing in the catalog is close enough, so the item was left out instead of guessing.`;
+    return `Similarity ${s} is between ${th.min.toFixed(2)} and ${th.high.toFixed(2)}: quoted, but flagged for a human to confirm.`;
+  return `Best similarity ${s} < ${th.min.toFixed(2)}: nothing in the catalog is close enough, so the item was left out instead of guessing.`;
 }
 
 function unitText(l: QuoteLine): string {
@@ -82,10 +83,12 @@ function unitText(l: QuoteLine): string {
 
 function LineTrace({
   line: l,
+  th,
   active,
   onHover,
 }: {
   line: QuoteLine;
+  th: Thresholds;
   active: boolean;
   onHover: (index: number | null) => void;
 }) {
@@ -137,7 +140,7 @@ function LineTrace({
                   </span>
                   <span className={`font-mono tabular ${rank === 0 ? "text-ink" : "text-ink-3"}`}>{score(c.score)}</span>
                 </div>
-                <ScoreBar value={c.score} color={rank === 0 ? hue(l.index) : "var(--line-strong)"} />
+                <ScoreBar value={c.score} th={th} color={rank === 0 ? hue(l.index) : "var(--line-strong)"} />
               </li>
             ))}
           </ul>
@@ -145,10 +148,10 @@ function LineTrace({
 
         <dt className="pt-0.5 text-ink-3">Decision</dt>
         <dd className="leading-relaxed text-ink-2">
-          {decisionText(l)}
+          {decisionText(l, th)}
           {l.ambiguous && (
             <span className="mt-1 block text-warn">
-              Runner-up is only {score(l.margin)} behind (&lt; {AMBIGUITY_MARGIN}), so the choice is ambiguous.
+              Runner-up is only {score(l.margin)} behind (&lt; {th.ambiguity}), so the choice is ambiguous.
             </span>
           )}
         </dd>
@@ -184,13 +187,13 @@ function LineTrace({
 }
 
 /** Similarity bar on a 0–1 scale with ticks at the two decision thresholds. */
-function ScoreBar({ value, color }: { value: number; color: string }) {
+function ScoreBar({ value, color, th }: { value: number; color: string; th: Thresholds }) {
   const w = Math.max(0, Math.min(1, value)) * 100;
   return (
     <div className="relative mt-1 h-1.5 rounded-full bg-surface-2" aria-hidden>
       <div className="absolute inset-y-0 left-0 rounded-full" style={{ width: `${w}%`, background: color }} />
-      <div className="absolute -inset-y-0.5 w-px bg-ink-3/50" style={{ left: `${MIN_SIMILARITY * 100}%` }} />
-      <div className="absolute -inset-y-0.5 w-px bg-ink-3/50" style={{ left: `${HIGH_CONFIDENCE * 100}%` }} />
+      <div className="absolute -inset-y-0.5 w-px bg-ink-3/50" style={{ left: `${th.min * 100}%` }} />
+      <div className="absolute -inset-y-0.5 w-px bg-ink-3/50" style={{ left: `${th.high * 100}%` }} />
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import embeddings from "@/data/catalog-embeddings.json";
 import { LIMITS } from "@/lib/config";
 import { liveConfig } from "@/lib/live";
-import { OpenAIError } from "@/lib/openai";
+import { ProviderError } from "@/lib/llm";
 import { PipelineError, runQuotePipeline } from "@/lib/pipeline";
 import { checkRateLimit } from "@/lib/rate-limit";
 import type { EmbeddingIndex } from "@/lib/types";
@@ -42,7 +42,7 @@ export async function POST(req: Request) {
   try {
     const result = await runQuotePipeline({
       input,
-      apiKey: process.env.OPENAI_API_KEY!,
+      apiKey: cfg.apiKey!,
       index: embeddings as EmbeddingIndex,
       mode: "live",
       maxItems: LIMITS.live.maxItems,
@@ -51,7 +51,7 @@ export async function POST(req: Request) {
     return Response.json(result, { headers: { "X-RateLimit-Remaining": String(limit.remaining) } });
   } catch (err) {
     if (err instanceof PipelineError) return Response.json({ error: err.message }, { status: 422 });
-    if (err instanceof OpenAIError) {
+    if (err instanceof ProviderError) {
       return Response.json({ error: "The model provider returned an error. Try again shortly." }, { status: 502 });
     }
     if (err instanceof Error && (err.name === "TimeoutError" || err.name === "AbortError")) {

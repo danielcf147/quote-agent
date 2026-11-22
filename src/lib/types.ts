@@ -1,3 +1,5 @@
+import type { ProviderId } from "./config";
+
 export type Measure = "each" | "L" | "mL" | "kg" | "g";
 
 export interface Product {
@@ -14,6 +16,7 @@ export interface Product {
 }
 
 export interface EmbeddingIndex {
+  provider: ProviderId | null;
   model: string | null;
   dimensions: number;
   generatedAt: string | null;
@@ -28,7 +31,8 @@ export interface ExtractedItem {
   search_query: string;
   quantity: number;
   unit: RequestedUnit;
-  unit_as_written: string | null;
+  /** The unit word as written, or an empty string. */
+  unit_as_written: string;
 }
 
 export interface Candidate {
@@ -78,7 +82,9 @@ export interface QuoteResult {
   createdAt: string;
   mode: RunMode;
   input: string;
+  provider: ProviderId;
   models: { chat: string; embedding: string };
+  thresholds: { high: number; min: number; ambiguity: number };
   lines: QuoteLine[];
   subtotal: number;
   currency: "USD";
@@ -86,6 +92,14 @@ export interface QuoteResult {
   usage: { promptTokens: number; completionTokens: number; embeddingTokens: number };
   estimatedCostUsd: number;
   warnings: string[];
+}
+
+/** Small file written next to the embeddings so the UI knows the provider without loading the vectors. */
+export interface EmbeddingMeta {
+  provider: ProviderId | null;
+  model: string | null;
+  dimensions: number;
+  generatedAt: string | null;
 }
 
 export interface DemoResultsFile {
