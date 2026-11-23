@@ -1,1 +1,6 @@
-{ "provider": null, "model": null, "dimensions": 0, "generatedAt": null }
+{
+  "provider": "gemini",
+  "model": "gemini-embedding-001",
+  "dimensions": 768,
+  "generatedAt": "2026-11-22T14:10:01.600Z"
+}

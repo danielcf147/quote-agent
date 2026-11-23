@@ -1,1 +1,1586 @@
-{ "generatedAt": null, "results": {} }
+{
+  "generatedAt": "2026-11-23T15:14:07.197Z",
+  "results": {
+    "lab-restock": {
+      "quoteNumber": "Q-20261123-NIO",
+      "createdAt": "2026-11-23T15:14:37.749Z",
+      "mode": "demo",
+      "input": "Hi! Could you send me a quote for 10 boxes of nitrile gloves size M, 5 liters of isopropyl alcohol and two of those 100 microliter pipettes? Also 3 racks of the 200ul tips. Thanks, Maria",
+      "provider": "gemini",
+      "models": {
+        "chat": "gemini-flash-lite-latest",
+        "embedding": "gemini-embedding-001"
+      },
+      "thresholds": {
+        "high": 0.66,
+        "min": 0.6,
+        "ambiguity": 0.015
+      },
+      "lines": [
+        {
+          "index": 0,
+          "sourceText": "10 boxes of nitrile gloves size M",
+          "span": [
+            34,
+            67
+          ],
+          "searchQuery": "nitrile gloves size M",
+          "requested": {
+            "quantity": 10,
+            "unit": "pack",
+            "unitAsWritten": "boxes"
+          },
+          "match": {
+            "sku": "PPE-NBR-M",
+            "name": "Acrylonitrile-Butadiene Examination Gloves, Powder-Free, Medium",
+            "unit": "Box of 100",
+            "price": 11.4,
+            "score": 0.7241
+          },
+          "candidates": [
+            {
+              "sku": "PPE-NBR-M",
+              "name": "Acrylonitrile-Butadiene Examination Gloves, Powder-Free, Medium",
+              "unit": "Box of 100",
+              "price": 11.4,
+              "score": 0.7241
+            },
+            {
+              "sku": "PPE-NBR-S",
+              "name": "Acrylonitrile-Butadiene Examination Gloves, Powder-Free, Small",
+              "unit": "Box of 100",
+              "price": 11.4,
+              "score": 0.699
+            },
+            {
+              "sku": "PPE-NBR-L",
+              "name": "Acrylonitrile-Butadiene Examination Gloves, Powder-Free, Large",
+              "unit": "Box of 100",
+              "price": 11.4,
+              "score": 0.6944
+            }
+          ],
+          "confidence": "high",
+          "verification": {
+            "sku": "PPE-NBR-M",
+            "fit": "exact",
+            "reason": "Candidate matches nitrile gloves in medium size."
+          },
+          "reranked": false,
+          "margin": 0.0251,
+          "ambiguous": false,
+          "conversion": {
+            "packs": 10,
+            "note": null
+          },
+          "lineTotal": 114,
+          "lexical": {
+            "overlapWithMatch": 0.25,
+            "keywordPick": {
+              "sku": "PPE-NBR-S",
+              "name": "Acrylonitrile-Butadiene Examination Gloves, Powder-Free, Small",
+              "score": 0.25
+            }
+          }
+        },
+        {
+          "index": 1,
+          "sourceText": "5 liters of isopropyl alcohol",
+          "span": [
+            69,
+            98
+          ],
+          "searchQuery": "isopropyl alcohol",
+          "requested": {
+            "quantity": 5,
+            "unit": "L",
+            "unitAsWritten": "liters"
+          },
+          "match": {
+            "sku": "CHM-IPA-4L",
+            "name": "2-Propanol, ACS Reagent Grade, ≥99.5%, 4 L",
+            "unit": "Bottle (4 L)",
+            "price": 54.9,
+            "score": 0.6902
+          },
+          "candidates": [
+            {
+              "sku": "CHM-IPA-1L",
+              "name": "2-Propanol, ACS Reagent Grade, ≥99.5%, 1 L",
+              "unit": "Bottle (1 L)",
+              "price": 18.6,
+              "score": 0.7045
+            },
+            {
+              "sku": "CHM-IPA-4L",
+              "name": "2-Propanol, ACS Reagent Grade, ≥99.5%, 4 L",
+              "unit": "Bottle (4 L)",
+              "price": 54.9,
+              "score": 0.6902
+            },
+            {
+              "sku": "CHM-ETOH-70",
+              "name": "Ethanol Solution 70% (v/v), Denatured, 1 L",
+              "unit": "Bottle (1 L)",
+              "price": 9.8,
+              "score": 0.6744
+            }
+          ],
+          "confidence": "review",
+          "verification": {
+            "sku": "CHM-IPA-4L",
+            "fit": "partial",
+            "reason": "Matches isopropyl alcohol, ignoring the bottle size."
+          },
+          "reranked": true,
+          "margin": 0.0143,
+          "ambiguous": true,
+          "conversion": {
+            "packs": 2,
+            "note": "5 L rounded up to 2 × Bottle (4 L) (8 L)."
+          },
+          "lineTotal": 109.8,
+          "lexical": {
+            "overlapWithMatch": 0,
+            "keywordPick": null
+          }
+        },
+        {
+          "index": 2,
+          "sourceText": "two of those 100 microliter pipettes",
+          "span": [
+            103,
+            139
+          ],
+          "searchQuery": "100 microliter pipette",
+          "requested": {
+            "quantity": 2,
+            "unit": "each",
+            "unitAsWritten": null
+          },
+          "match": {
+            "sku": "INS-MP-P100",
+            "name": "Single-Channel Adjustable Micropipette, 10–100 µL",
+            "unit": "Each",
+            "price": 189,
+            "score": 0.7316
+          },
+          "candidates": [
+            {
+              "sku": "INS-MP-P1000",
+              "name": "Single-Channel Adjustable Micropipette, 100–1000 µL",
+              "unit": "Each",
+              "price": 189,
+              "score": 0.7358
+            },
+            {
+              "sku": "INS-MP-P100",
+              "name": "Single-Channel Adjustable Micropipette, 10–100 µL",
+              "unit": "Each",
+              "price": 189,
+              "score": 0.7316
+            },
+            {
+              "sku": "INS-MP-8CH",
+              "name": "Eight-Channel Adjustable Micropipette, 10–100 µL",
+              "unit": "Each",
+              "price": 549,
+              "score": 0.6974
+            }
+          ],
+          "confidence": "high",
+          "verification": {
+            "sku": "INS-MP-P100",
+            "fit": "exact",
+            "reason": "Single-channel pipette with 10-100 µL range designed for 100 µL."
+          },
+          "reranked": true,
+          "margin": 0.0042,
+          "ambiguous": true,
+          "conversion": {
+            "packs": 2,
+            "note": null
+          },
+          "lineTotal": 378,
+          "lexical": {
+            "overlapWithMatch": 0,
+            "keywordPick": {
+              "sku": "CON-TIP-10",
+              "name": "Universal Fit Pipette Tips, 10 µL, Racked, Sterile",
+              "score": 0.3333
+            }
+          }
+        },
+        {
+          "index": 3,
+          "sourceText": "3 racks of the 200ul tips",
+          "span": [
+            146,
+            171
+          ],
+          "searchQuery": "200ul pipette tips rack",
+          "requested": {
+            "quantity": 3,
+            "unit": "pack",
+            "unitAsWritten": "racks"
+          },
+          "match": {
+            "sku": "CON-TIP-200",
+            "name": "Universal Fit Pipette Tips, 200 µL, Racked, Sterile",
+            "unit": "Rack of 96",
+            "price": 18.5,
+            "score": 0.7832
+          },
+          "candidates": [
+            {
+              "sku": "CON-TIP-200",
+              "name": "Universal Fit Pipette Tips, 200 µL, Racked, Sterile",
+              "unit": "Rack of 96",
+              "price": 18.5,
+              "score": 0.7832
+            },
+            {
+              "sku": "CON-TIP-10",
+              "name": "Universal Fit Pipette Tips, 10 µL, Racked, Sterile",
+              "unit": "Rack of 96",
+              "price": 21,
+              "score": 0.7438
+            },
+            {
+              "sku": "CON-TIP-1000",
+              "name": "Universal Fit Pipette Tips, 1000 µL, Racked, Sterile",
+              "unit": "Rack of 96",
+              "price": 19.8,
+              "score": 0.7397
+            }
+          ],
+          "confidence": "high",
+          "verification": {
+            "sku": "CON-TIP-200",
+            "fit": "exact",
+            "reason": "Matches 200 µL racked pipette tips."
+          },
+          "reranked": false,
+          "margin": 0.0394,
+          "ambiguous": false,
+          "conversion": {
+            "packs": 3,
+            "note": null
+          },
+          "lineTotal": 55.5,
+          "lexical": {
+            "overlapWithMatch": 0.3333,
+            "keywordPick": {
+              "sku": "CON-TIP-10",
+              "name": "Universal Fit Pipette Tips, 10 µL, Racked, Sterile",
+              "score": 0.3333
+            }
+          }
+        }
+      ],
+      "subtotal": 657.3,
+      "currency": "USD",
+      "stages": [
+        {
+          "id": "extract",
+          "label": "Extract line items",
+          "ms": 24389,
+          "detail": "gemini-flash-lite-latest · structured output · 4 items found"
+        },
+        {
+          "id": "embed",
+          "label": "Embed search queries",
+          "ms": 541,
+          "detail": "gemini-embedding-001 · 768 dimensions · 1 batched call"
+        },
+        {
+          "id": "match",
+          "label": "Vector search",
+          "ms": 2,
+          "detail": "cosine similarity · 4 × 80 comparisons · top 3 kept"
+        },
+        {
+          "id": "verify",
+          "label": "Verify matches",
+          "ms": 5613,
+          "detail": "gemini-flash-lite-latest · top 3 per item · 2 changed"
+        },
+        {
+          "id": "price",
+          "label": "Convert units & price",
+          "ms": 4,
+          "detail": "4 priced · 0 unmatched · 1 flagged"
+        }
+      ],
+      "usage": {
+        "promptTokens": 1462,
+        "completionTokens": 436,
+        "embeddingTokens": 21
+      },
+      "estimatedCostUsd": 0.00153175,
+      "warnings": [
+        "1 line flagged for human review."
+      ]
+    },
+    "office-order": {
+      "quoteNumber": "Q-20261123-YOV",
+      "createdAt": "2026-11-23T15:14:43.715Z",
+      "mode": "demo",
+      "input": "hey, office is out of basically everything lol. we need 2000 sheets of A4 printer paper, a dozen post-its, 24 blue pens, a couple of staplers + staples, and some whiteboard markers (4 packs). oh and coffee, 3 kg of ground coffee for the kitchen",
+      "provider": "gemini",
+      "models": {
+        "chat": "gemini-flash-lite-latest",
+        "embedding": "gemini-embedding-001"
+      },
+      "thresholds": {
+        "high": 0.66,
+        "min": 0.6,
+        "ambiguity": 0.015
+      },
+      "lines": [
+        {
+          "index": 0,
+          "sourceText": "2000 sheets of A4 printer paper",
+          "span": [
+            56,
+            87
+          ],
+          "searchQuery": "A4 printer paper sheets",
+          "requested": {
+            "quantity": 2000,
+            "unit": "each",
+            "unitAsWritten": "sheets"
+          },
+          "match": {
+            "sku": "OFF-PAP-A4",
+            "name": "Multipurpose Copy Medium, 80 g/m², A4, 500 Sheets",
+            "unit": "Ream of 500",
+            "price": 6.2,
+            "score": 0.7006
+          },
+          "candidates": [
+            {
+              "sku": "OFF-PAP-A4",
+              "name": "Multipurpose Copy Medium, 80 g/m², A4, 500 Sheets",
+              "unit": "Ream of 500",
+              "price": 6.2,
+              "score": 0.7006
+            },
+            {
+              "sku": "OFF-LBL-A4",
+              "name": "Laser-Compatible Adhesive Labels, 21 per Sheet",
+              "unit": "Pack of 100 sheets",
+              "price": 16.8,
+              "score": 0.672
+            },
+            {
+              "sku": "OFF-PAP-LTR",
+              "name": "Multipurpose Copy Medium, 20 lb, Letter, 500 Sheets",
+              "unit": "Ream of 500",
+              "price": 6.4,
+              "score": 0.6661
+            }
+          ],
+          "confidence": "high",
+          "verification": {
+            "sku": "OFF-PAP-A4",
+            "fit": "exact",
+            "reason": "OFF-PAP-A4 matches A4 printer paper perfectly."
+          },
+          "reranked": false,
+          "margin": 0.0286,
+          "ambiguous": false,
+          "conversion": {
+            "packs": 4,
+            "note": "2000 units = 4 × Ream of 500."
+          },
+          "lineTotal": 24.8,
+          "lexical": {
+            "overlapWithMatch": 0.5,
+            "keywordPick": {
+              "sku": "OFF-PAP-A4",
+              "name": "Multipurpose Copy Medium, 80 g/m², A4, 500 Sheets",
+              "score": 0.5
+            }
+          }
+        },
+        {
+          "index": 1,
+          "sourceText": "a dozen post-its",
+          "span": [
+            89,
+            105
+          ],
+          "searchQuery": "sticky notes post-its",
+          "requested": {
+            "quantity": 12,
+            "unit": "pack",
+            "unitAsWritten": "dozen"
+          },
+          "match": {
+            "sku": "OFF-NOTE-76",
+            "name": "Repositionable Adhesive Note Pads, 76 × 76 mm, Yellow",
+            "unit": "Pack of 12 pads",
+            "price": 9.9,
+            "score": 0.6754
+          },
+          "candidates": [
+            {
+              "sku": "OFF-NOTE-76",
+              "name": "Repositionable Adhesive Note Pads, 76 × 76 mm, Yellow",
+              "unit": "Pack of 12 pads",
+              "price": 9.9,
+              "score": 0.6754
+            },
+            {
+              "sku": "OFF-LBL-A4",
+              "name": "Laser-Compatible Adhesive Labels, 21 per Sheet",
+              "unit": "Pack of 100 sheets",
+              "price": 16.8,
+              "score": 0.6217
+            },
+            {
+              "sku": "OFF-TAPE",
+              "name": "Transparent Adhesive Tape, 19 mm × 33 m",
+              "unit": "Pack of 8 rolls",
+              "price": 8.4,
+              "score": 0.6115
+            }
+          ],
+          "confidence": "high",
+          "verification": {
+            "sku": "OFF-NOTE-76",
+            "fit": "exact",
+            "reason": "OFF-NOTE-76 matches post-it sticky notes."
+          },
+          "reranked": false,
+          "margin": 0.0537,
+          "ambiguous": false,
+          "conversion": {
+            "packs": 12,
+            "note": null
+          },
+          "lineTotal": 118.8,
+          "lexical": {
+            "overlapWithMatch": 0,
+            "keywordPick": null
+          }
+        },
+        {
+          "index": 2,
+          "sourceText": "24 blue pens",
+          "span": [
+            107,
+            119
+          ],
+          "searchQuery": "blue ballpoint pens",
+          "requested": {
+            "quantity": 24,
+            "unit": "each",
+            "unitAsWritten": "pens"
+          },
+          "match": {
+            "sku": "OFF-PEN-BLU",
+            "name": "Ballpoint Writing Instrument, Medium Point, Blue",
+            "unit": "Box of 12",
+            "price": 7.8,
+            "score": 0.7502
+          },
+          "candidates": [
+            {
+              "sku": "OFF-PEN-BLU",
+              "name": "Ballpoint Writing Instrument, Medium Point, Blue",
+              "unit": "Box of 12",
+              "price": 7.8,
+              "score": 0.7502
+            },
+            {
+              "sku": "OFF-PEN-BLK",
+              "name": "Ballpoint Writing Instrument, Medium Point, Black",
+              "unit": "Box of 12",
+              "price": 7.8,
+              "score": 0.6907
+            },
+            {
+              "sku": "OFF-MRK-PERM",
+              "name": "Permanent Marking Instrument, Fine Tip, Black, Solvent-Resistant",
+              "unit": "Box of 12",
+              "price": 13.2,
+              "score": 0.5991
+            }
+          ],
+          "confidence": "high",
+          "verification": {
+            "sku": "OFF-PEN-BLU",
+            "fit": "exact",
+            "reason": "OFF-PEN-BLU matches blue ballpoint pens."
+          },
+          "reranked": false,
+          "margin": 0.0595,
+          "ambiguous": false,
+          "conversion": {
+            "packs": 2,
+            "note": "24 units = 2 × Box of 12."
+          },
+          "lineTotal": 15.6,
+          "lexical": {
+            "overlapWithMatch": 0.5,
+            "keywordPick": {
+              "sku": "OFF-PEN-BLU",
+              "name": "Ballpoint Writing Instrument, Medium Point, Blue",
+              "score": 0.5
+            }
+          }
+        },
+        {
+          "index": 3,
+          "sourceText": "a couple of staplers",
+          "span": [
+            121,
+            141
+          ],
+          "searchQuery": "office stapler",
+          "requested": {
+            "quantity": 2,
+            "unit": "each",
+            "unitAsWritten": null
+          },
+          "match": {
+            "sku": "OFF-STAPLER",
+            "name": "Desktop Fastening Device, 25-Sheet Capacity",
+            "unit": "Each",
+            "price": 14.9,
+            "score": 0.7199
+          },
+          "candidates": [
+            {
+              "sku": "OFF-STAPLER",
+              "name": "Desktop Fastening Device, 25-Sheet Capacity",
+              "unit": "Each",
+              "price": 14.9,
+              "score": 0.7199
+            },
+            {
+              "sku": "OFF-STAPLES",
+              "name": "Wire Fasteners 26/6, Galvanized",
+              "unit": "Box of 5000",
+              "price": 2.4,
+              "score": 0.7113
+            },
+            {
+              "sku": "OFF-ENV-C4",
+              "name": "Self-Seal Envelopes, C4, White, 100 g/m²",
+              "unit": "Box of 250",
+              "price": 27.5,
+              "score": 0.6253
+            }
+          ],
+          "confidence": "high",
+          "verification": {
+            "sku": "OFF-STAPLER",
+            "fit": "exact",
+            "reason": "OFF-STAPLER matches desktop staplers."
+          },
+          "reranked": false,
+          "margin": 0.0087,
+          "ambiguous": true,
+          "conversion": {
+            "packs": 2,
+            "note": null
+          },
+          "lineTotal": 29.8,
+          "lexical": {
+            "overlapWithMatch": 0,
+            "keywordPick": null
+          }
+        },
+        {
+          "index": 4,
+          "sourceText": "staples",
+          "span": [
+            144,
+            151
+          ],
+          "searchQuery": "office stapler staples",
+          "requested": {
+            "quantity": 1,
+            "unit": "pack",
+            "unitAsWritten": null
+          },
+          "match": {
+            "sku": "OFF-STAPLES",
+            "name": "Wire Fasteners 26/6, Galvanized",
+            "unit": "Box of 5000",
+            "price": 2.4,
+            "score": 0.7265
+          },
+          "candidates": [
+            {
+              "sku": "OFF-STAPLES",
+              "name": "Wire Fasteners 26/6, Galvanized",
+              "unit": "Box of 5000",
+              "price": 2.4,
+              "score": 0.7265
+            },
+            {
+              "sku": "OFF-STAPLER",
+              "name": "Desktop Fastening Device, 25-Sheet Capacity",
+              "unit": "Each",
+              "price": 14.9,
+              "score": 0.6986
+            },
+            {
+              "sku": "OFF-LBL-A4",
+              "name": "Laser-Compatible Adhesive Labels, 21 per Sheet",
+              "unit": "Pack of 100 sheets",
+              "price": 16.8,
+              "score": 0.6168
+            }
+          ],
+          "confidence": "high",
+          "verification": {
+            "sku": "OFF-STAPLES",
+            "fit": "exact",
+            "reason": "OFF-STAPLES matches office stapler staples."
+          },
+          "reranked": false,
+          "margin": 0.0279,
+          "ambiguous": false,
+          "conversion": {
+            "packs": 1,
+            "note": null
+          },
+          "lineTotal": 2.4,
+          "lexical": {
+            "overlapWithMatch": 0,
+            "keywordPick": null
+          }
+        },
+        {
+          "index": 5,
+          "sourceText": "whiteboard markers (4 packs)",
+          "span": [
+            162,
+            190
+          ],
+          "searchQuery": "whiteboard markers",
+          "requested": {
+            "quantity": 4,
+            "unit": "pack",
+            "unitAsWritten": "packs"
+          },
+          "match": {
+            "sku": "OFF-MRK-DRY",
+            "name": "Dry-Erase Marking Instruments, Chisel Tip, Assorted Colors",
+            "unit": "Set of 4",
+            "price": 5.6,
+            "score": 0.7009
+          },
+          "candidates": [
+            {
+              "sku": "OFF-MRK-DRY",
+              "name": "Dry-Erase Marking Instruments, Chisel Tip, Assorted Colors",
+              "unit": "Set of 4",
+              "price": 5.6,
+              "score": 0.7009
+            },
+            {
+              "sku": "OFF-ERASER",
+              "name": "Whiteboard Cleaning Block, Felt",
+              "unit": "Each",
+              "price": 3.1,
+              "score": 0.6745
+            },
+            {
+              "sku": "OFF-MRK-PERM",
+              "name": "Permanent Marking Instrument, Fine Tip, Black, Solvent-Resistant",
+              "unit": "Box of 12",
+              "price": 13.2,
+              "score": 0.6694
+            }
+          ],
+          "confidence": "high",
+          "verification": {
+            "sku": "OFF-MRK-DRY",
+            "fit": "exact",
+            "reason": "OFF-MRK-DRY matches whiteboard markers."
+          },
+          "reranked": false,
+          "margin": 0.0264,
+          "ambiguous": false,
+          "conversion": {
+            "packs": 4,
+            "note": null
+          },
+          "lineTotal": 22.4,
+          "lexical": {
+            "overlapWithMatch": 0,
+            "keywordPick": {
+              "sku": "OFF-ERASER",
+              "name": "Whiteboard Cleaning Block, Felt",
+              "score": 0.3333
+            }
+          }
+        },
+        {
+          "index": 6,
+          "sourceText": "3 kg of ground coffee",
+          "span": [
+            207,
+            228
+          ],
+          "searchQuery": "ground coffee",
+          "requested": {
+            "quantity": 3,
+            "unit": "kg",
+            "unitAsWritten": "kg"
+          },
+          "match": {
+            "sku": "FAC-COFFEE",
+            "name": "Ground Roasted Arabica Coffee, Medium Roast, 1 kg",
+            "unit": "Bag (1 kg)",
+            "price": 21.9,
+            "score": 0.732
+          },
+          "candidates": [
+            {
+              "sku": "FAC-COFFEE",
+              "name": "Ground Roasted Arabica Coffee, Medium Roast, 1 kg",
+              "unit": "Bag (1 kg)",
+              "price": 21.9,
+              "score": 0.732
+            },
+            {
+              "sku": "FAC-CUPS",
+              "name": "Disposable Hot Beverage Cups, 240 mL, Paper",
+              "unit": "Sleeve of 50",
+              "price": 4.9,
+              "score": 0.5746
+            },
+            {
+              "sku": "PPE-NRL-M",
+              "name": "Natural Rubber Latex Examination Gloves, Lightly Powdered, Medium",
+              "unit": "Box of 100",
+              "price": 8.9,
+              "score": 0.5391
+            }
+          ],
+          "confidence": "high",
+          "verification": {
+            "sku": "FAC-COFFEE",
+            "fit": "exact",
+            "reason": "FAC-COFFEE matches ground coffee."
+          },
+          "reranked": false,
+          "margin": 0.1574,
+          "ambiguous": false,
+          "conversion": {
+            "packs": 3,
+            "note": "3 kg = 3 × Bag (1 kg)."
+          },
+          "lineTotal": 65.7,
+          "lexical": {
+            "overlapWithMatch": 1,
+            "keywordPick": {
+              "sku": "FAC-COFFEE",
+              "name": "Ground Roasted Arabica Coffee, Medium Roast, 1 kg",
+              "score": 1
+            }
+          }
+        }
+      ],
+      "subtotal": 279.5,
+      "currency": "USD",
+      "stages": [
+        {
+          "id": "extract",
+          "label": "Extract line items",
+          "ms": 1823,
+          "detail": "gemini-flash-lite-latest · structured output · 7 items found"
+        },
+        {
+          "id": "embed",
+          "label": "Embed search queries",
+          "ms": 716,
+          "detail": "gemini-embedding-001 · 768 dimensions · 1 batched call"
+        },
+        {
+          "id": "match",
+          "label": "Vector search",
+          "ms": 1,
+          "detail": "cosine similarity · 7 × 80 comparisons · top 3 kept"
+        },
+        {
+          "id": "verify",
+          "label": "Verify matches",
+          "ms": 3423,
+          "detail": "gemini-flash-lite-latest · top 3 per item · 0 changed"
+        },
+        {
+          "id": "price",
+          "label": "Convert units & price",
+          "ms": 3,
+          "detail": "7 priced · 0 unmatched · 0 flagged"
+        }
+      ],
+      "usage": {
+        "promptTokens": 1808,
+        "completionTokens": 814,
+        "embeddingTokens": 33
+      },
+      "estimatedCostUsd": 0.0025823499999999997,
+      "warnings": []
+    },
+    "messy-request": {
+      "quoteNumber": "Q-20261123-WJT",
+      "createdAt": "2026-11-23T15:14:56.966Z",
+      "mode": "demo",
+      "input": "need asap: 50ml falcon tubes x4 packs, petri dishs 200 pcs, parafim 1 roll, eppendorf tubes 1.5, a centrifuge for the 50ml tubes, and the kim wipes - 6 boxes",
+      "provider": "gemini",
+      "models": {
+        "chat": "gemini-flash-lite-latest",
+        "embedding": "gemini-embedding-001"
+      },
+      "thresholds": {
+        "high": 0.66,
+        "min": 0.6,
+        "ambiguity": 0.015
+      },
+      "lines": [
+        {
+          "index": 0,
+          "sourceText": "50ml falcon tubes x4 packs",
+          "span": [
+            11,
+            37
+          ],
+          "searchQuery": "50ml falcon tubes",
+          "requested": {
+            "quantity": 4,
+            "unit": "pack",
+            "unitAsWritten": "packs"
+          },
+          "match": {
+            "sku": "CON-CT-50",
+            "name": "Conical-Bottom Centrifugation Tubes, 50 mL, Sterile",
+            "unit": "Pack of 25",
+            "price": 13.4,
+            "score": 0.7433
+          },
+          "candidates": [
+            {
+              "sku": "CON-CT-50",
+              "name": "Conical-Bottom Centrifugation Tubes, 50 mL, Sterile",
+              "unit": "Pack of 25",
+              "price": 13.4,
+              "score": 0.7433
+            },
+            {
+              "sku": "CON-CT-15",
+              "name": "Conical-Bottom Centrifugation Tubes, 15 mL, Sterile",
+              "unit": "Pack of 50",
+              "price": 15.9,
+              "score": 0.7246
+            },
+            {
+              "sku": "CON-MCT-15",
+              "name": "Microcentrifugation Tubes with Snap Cap, 1.5 mL",
+              "unit": "Bag of 500",
+              "price": 17.6,
+              "score": 0.694
+            }
+          ],
+          "confidence": "high",
+          "verification": {
+            "sku": "CON-CT-50",
+            "fit": "exact",
+            "reason": "CON-CT-50 matches the requested 50 ml falcon tubes exactly."
+          },
+          "reranked": false,
+          "margin": 0.0187,
+          "ambiguous": false,
+          "conversion": {
+            "packs": 4,
+            "note": null
+          },
+          "lineTotal": 53.6,
+          "lexical": {
+            "overlapWithMatch": 0.2,
+            "keywordPick": {
+              "sku": "INS-VORTEX",
+              "name": "Orbital Tube Agitator, Variable Speed",
+              "score": 0.2
+            }
+          }
+        },
+        {
+          "index": 1,
+          "sourceText": "petri dishs 200 pcs",
+          "span": [
+            39,
+            58
+          ],
+          "searchQuery": "petri dish",
+          "requested": {
+            "quantity": 200,
+            "unit": "each",
+            "unitAsWritten": "pcs"
+          },
+          "match": {
+            "sku": "CON-PETRI-90",
+            "name": "Polystyrene Culture Dishes, 90 mm, Sterile, Vented",
+            "unit": "Sleeve of 20",
+            "price": 6.9,
+            "score": 0.6713
+          },
+          "candidates": [
+            {
+              "sku": "CON-PETRI-90",
+              "name": "Polystyrene Culture Dishes, 90 mm, Sterile, Vented",
+              "unit": "Sleeve of 20",
+              "price": 6.9,
+              "score": 0.6713
+            },
+            {
+              "sku": "GLW-BOT-500",
+              "name": "Media Storage Bottle with Screw Cap, 500 mL",
+              "unit": "Each",
+              "price": 9.6,
+              "score": 0.6133
+            },
+            {
+              "sku": "INS-STIR",
+              "name": "Magnetic Agitator with Heating Plate, 15 L Capacity",
+              "unit": "Each",
+              "price": 412,
+              "score": 0.6001
+            }
+          ],
+          "confidence": "review",
+          "verification": {
+            "sku": "CON-PETRI-90",
+            "fit": "partial",
+            "reason": "CON-PETRI-90 matches the requested petri dish with unstated size and venting."
+          },
+          "reranked": false,
+          "margin": 0.058,
+          "ambiguous": false,
+          "conversion": {
+            "packs": 10,
+            "note": "200 units = 10 × Sleeve of 20."
+          },
+          "lineTotal": 69,
+          "lexical": {
+            "overlapWithMatch": 0,
+            "keywordPick": null
+          }
+        },
+        {
+          "index": 2,
+          "sourceText": "parafim 1 roll",
+          "span": [
+            60,
+            74
+          ],
+          "searchQuery": "parafilm sealing film",
+          "requested": {
+            "quantity": 1,
+            "unit": "pack",
+            "unitAsWritten": "roll"
+          },
+          "match": {
+            "sku": "CON-FILM-10",
+            "name": "Thermoplastic Sealing Film, 10 cm × 38 m",
+            "unit": "Roll",
+            "price": 39.9,
+            "score": 0.7428
+          },
+          "candidates": [
+            {
+              "sku": "CON-FILM-10",
+              "name": "Thermoplastic Sealing Film, 10 cm × 38 m",
+              "unit": "Roll",
+              "price": 39.9,
+              "score": 0.7428
+            },
+            {
+              "sku": "WST-TAPE-AC",
+              "name": "Steam Sterilization Indicator Tape, 19 mm × 55 m",
+              "unit": "Roll",
+              "price": 7.4,
+              "score": 0.6219
+            },
+            {
+              "sku": "OFF-TAPE",
+              "name": "Transparent Adhesive Tape, 19 mm × 33 m",
+              "unit": "Pack of 8 rolls",
+              "price": 8.4,
+              "score": 0.6058
+            }
+          ],
+          "confidence": "high",
+          "verification": {
+            "sku": "CON-FILM-10",
+            "fit": "exact",
+            "reason": "CON-FILM-10 matches the requested parafilm sealing film roll."
+          },
+          "reranked": false,
+          "margin": 0.121,
+          "ambiguous": false,
+          "conversion": {
+            "packs": 1,
+            "note": null
+          },
+          "lineTotal": 39.9,
+          "lexical": {
+            "overlapWithMatch": 0,
+            "keywordPick": null
+          }
+        },
+        {
+          "index": 3,
+          "sourceText": "eppendorf tubes 1.5",
+          "span": [
+            76,
+            95
+          ],
+          "searchQuery": "1.5ml eppendorf microcentrifuge tubes",
+          "requested": {
+            "quantity": 1,
+            "unit": "pack",
+            "unitAsWritten": null
+          },
+          "match": {
+            "sku": "CON-MCT-15",
+            "name": "Microcentrifugation Tubes with Snap Cap, 1.5 mL",
+            "unit": "Bag of 500",
+            "price": 17.6,
+            "score": 0.7581
+          },
+          "candidates": [
+            {
+              "sku": "CON-MCT-15",
+              "name": "Microcentrifugation Tubes with Snap Cap, 1.5 mL",
+              "unit": "Bag of 500",
+              "price": 17.6,
+              "score": 0.7581
+            },
+            {
+              "sku": "CON-CT-15",
+              "name": "Conical-Bottom Centrifugation Tubes, 15 mL, Sterile",
+              "unit": "Pack of 50",
+              "price": 15.9,
+              "score": 0.7355
+            },
+            {
+              "sku": "CON-CT-50",
+              "name": "Conical-Bottom Centrifugation Tubes, 50 mL, Sterile",
+              "unit": "Pack of 25",
+              "price": 13.4,
+              "score": 0.7028
+            }
+          ],
+          "confidence": "high",
+          "verification": {
+            "sku": "CON-MCT-15",
+            "fit": "exact",
+            "reason": "CON-MCT-15 matches the requested 1.5 ml microcentrifuge tubes."
+          },
+          "reranked": false,
+          "margin": 0.0226,
+          "ambiguous": false,
+          "conversion": {
+            "packs": 1,
+            "note": null
+          },
+          "lineTotal": 17.6,
+          "lexical": {
+            "overlapWithMatch": 0.5,
+            "keywordPick": {
+              "sku": "INS-VORTEX",
+              "name": "Orbital Tube Agitator, Variable Speed",
+              "score": 0.5
+            }
+          }
+        },
+        {
+          "index": 4,
+          "sourceText": "a centrifuge for the 50ml tubes",
+          "span": [
+            97,
+            128
+          ],
+          "searchQuery": "centrifuge for 50ml tubes",
+          "requested": {
+            "quantity": 1,
+            "unit": "each",
+            "unitAsWritten": null
+          },
+          "match": null,
+          "candidates": [
+            {
+              "sku": "CON-CT-50",
+              "name": "Conical-Bottom Centrifugation Tubes, 50 mL, Sterile",
+              "unit": "Pack of 25",
+              "price": 13.4,
+              "score": 0.7223
+            },
+            {
+              "sku": "CON-CT-15",
+              "name": "Conical-Bottom Centrifugation Tubes, 15 mL, Sterile",
+              "unit": "Pack of 50",
+              "price": 15.9,
+              "score": 0.7044
+            },
+            {
+              "sku": "CON-MCT-15",
+              "name": "Microcentrifugation Tubes with Snap Cap, 1.5 mL",
+              "unit": "Bag of 500",
+              "price": 17.6,
+              "score": 0.6797
+            }
+          ],
+          "confidence": "none",
+          "verification": {
+            "sku": null,
+            "fit": "none",
+            "reason": "None of the candidates are centrifuges."
+          },
+          "reranked": false,
+          "margin": 0.0179,
+          "ambiguous": false,
+          "conversion": {
+            "packs": 0,
+            "note": null
+          },
+          "lineTotal": 0,
+          "lexical": {
+            "overlapWithMatch": 0.3333,
+            "keywordPick": {
+              "sku": "INS-VORTEX",
+              "name": "Orbital Tube Agitator, Variable Speed",
+              "score": 0.3333
+            }
+          }
+        },
+        {
+          "index": 5,
+          "sourceText": "kim wipes - 6 boxes",
+          "span": [
+            138,
+            157
+          ],
+          "searchQuery": "kimwipes laboratory wipers",
+          "requested": {
+            "quantity": 6,
+            "unit": "pack",
+            "unitAsWritten": "boxes"
+          },
+          "match": {
+            "sku": "CON-WIPE-LL",
+            "name": "Low-Lint Delicate Task Wipers, Single-Ply",
+            "unit": "Box of 280",
+            "price": 5.4,
+            "score": 0.7055
+          },
+          "candidates": [
+            {
+              "sku": "CON-WIPE-LL",
+              "name": "Low-Lint Delicate Task Wipers, Single-Ply",
+              "unit": "Box of 280",
+              "price": 5.4,
+              "score": 0.7055
+            },
+            {
+              "sku": "FAC-WIPES",
+              "name": "Quaternary Ammonium Surface Disinfection Wipes",
+              "unit": "Canister of 200",
+              "price": 11.6,
+              "score": 0.6609
+            },
+            {
+              "sku": "CON-TIP-1000",
+              "name": "Universal Fit Pipette Tips, 1000 µL, Racked, Sterile",
+              "unit": "Rack of 96",
+              "price": 19.8,
+              "score": 0.6171
+            }
+          ],
+          "confidence": "high",
+          "verification": {
+            "sku": "CON-WIPE-LL",
+            "fit": "exact",
+            "reason": "CON-WIPE-LL matches the requested delicate task laboratory wipers."
+          },
+          "reranked": false,
+          "margin": 0.0445,
+          "ambiguous": false,
+          "conversion": {
+            "packs": 6,
+            "note": null
+          },
+          "lineTotal": 32.4,
+          "lexical": {
+            "overlapWithMatch": 0,
+            "keywordPick": {
+              "sku": "FAC-WIPES",
+              "name": "Quaternary Ammonium Surface Disinfection Wipes",
+              "score": 0.3333
+            }
+          }
+        }
+      ],
+      "subtotal": 212.5,
+      "currency": "USD",
+      "stages": [
+        {
+          "id": "extract",
+          "label": "Extract line items",
+          "ms": 10765,
+          "detail": "gemini-flash-lite-latest · structured output · 6 items found"
+        },
+        {
+          "id": "embed",
+          "label": "Embed search queries",
+          "ms": 792,
+          "detail": "gemini-embedding-001 · 768 dimensions · 1 batched call"
+        },
+        {
+          "id": "match",
+          "label": "Vector search",
+          "ms": 1,
+          "detail": "cosine similarity · 6 × 80 comparisons · top 3 kept"
+        },
+        {
+          "id": "verify",
+          "label": "Verify matches",
+          "ms": 1686,
+          "detail": "gemini-flash-lite-latest · top 3 per item · 1 changed"
+        },
+        {
+          "id": "price",
+          "label": "Convert units & price",
+          "ms": 5,
+          "detail": "5 priced · 1 unmatched · 1 flagged"
+        }
+      ],
+      "usage": {
+        "promptTokens": 1763,
+        "completionTokens": 755,
+        "embeddingTokens": 34
+      },
+      "estimatedCostUsd": 0.0024215,
+      "warnings": [
+        "1 item had no confident catalog match and was left out of the total.",
+        "1 line flagged for human review."
+      ]
+    },
+    "spanish-request": {
+      "quoteNumber": "Q-20261123-UVH",
+      "createdAt": "2026-11-23T15:15:19.350Z",
+      "mode": "demo",
+      "input": "Buenos días, necesitamos cotización de: 4 litros de etanol al 70% para desinfectar, 2 batas de laboratorio talla L, 3 gafas de seguridad y 1 caja de mascarillas quirúrgicas. Saludos.",
+      "provider": "gemini",
+      "models": {
+        "chat": "gemini-flash-lite-latest",
+        "embedding": "gemini-embedding-001"
+      },
+      "thresholds": {
+        "high": 0.66,
+        "min": 0.6,
+        "ambiguity": 0.015
+      },
+      "lines": [
+        {
+          "index": 0,
+          "sourceText": "4 litros de etanol al 70%",
+          "span": [
+            40,
+            65
+          ],
+          "searchQuery": "ethanol 70 percent 4 L",
+          "requested": {
+            "quantity": 4,
+            "unit": "L",
+            "unitAsWritten": "litros"
+          },
+          "match": {
+            "sku": "CHM-ETOH-70",
+            "name": "Ethanol Solution 70% (v/v), Denatured, 1 L",
+            "unit": "Bottle (1 L)",
+            "price": 9.8,
+            "score": 0.7543
+          },
+          "candidates": [
+            {
+              "sku": "CHM-ETOH-70",
+              "name": "Ethanol Solution 70% (v/v), Denatured, 1 L",
+              "unit": "Bottle (1 L)",
+              "price": 9.8,
+              "score": 0.7543
+            },
+            {
+              "sku": "CHM-IPA-4L",
+              "name": "2-Propanol, ACS Reagent Grade, ≥99.5%, 4 L",
+              "unit": "Bottle (4 L)",
+              "price": 54.9,
+              "score": 0.7001
+            },
+            {
+              "sku": "CHM-ETOH-AB",
+              "name": "Ethanol, Absolute, ≥99.8%, Analytical Grade, 1 L",
+              "unit": "Bottle (1 L)",
+              "price": 27.4,
+              "score": 0.6863
+            }
+          ],
+          "confidence": "high",
+          "verification": {
+            "sku": "CHM-ETOH-70",
+            "fit": "exact",
+            "reason": "Ethanol 70 percent matches the requested concentration and chemical."
+          },
+          "reranked": false,
+          "margin": 0.0542,
+          "ambiguous": false,
+          "conversion": {
+            "packs": 4,
+            "note": "4 L = 4 × Bottle (1 L)."
+          },
+          "lineTotal": 39.2,
+          "lexical": {
+            "overlapWithMatch": 0,
+            "keywordPick": null
+          }
+        },
+        {
+          "index": 1,
+          "sourceText": "2 batas de laboratorio talla L",
+          "span": [
+            84,
+            114
+          ],
+          "searchQuery": "laboratory coat size L",
+          "requested": {
+            "quantity": 2,
+            "unit": "each",
+            "unitAsWritten": null
+          },
+          "match": {
+            "sku": "PPE-COAT-L",
+            "name": "Laboratory Protective Coat, Polycotton, Large",
+            "unit": "Each",
+            "price": 34.5,
+            "score": 0.7565
+          },
+          "candidates": [
+            {
+              "sku": "PPE-COAT-L",
+              "name": "Laboratory Protective Coat, Polycotton, Large",
+              "unit": "Each",
+              "price": 34.5,
+              "score": 0.7565
+            },
+            {
+              "sku": "PPE-COAT-M",
+              "name": "Laboratory Protective Coat, Polycotton, Medium",
+              "unit": "Each",
+              "price": 34.5,
+              "score": 0.7477
+            },
+            {
+              "sku": "PPE-NBR-L",
+              "name": "Acrylonitrile-Butadiene Examination Gloves, Powder-Free, Large",
+              "unit": "Box of 100",
+              "price": 11.4,
+              "score": 0.6275
+            }
+          ],
+          "confidence": "high",
+          "verification": {
+            "sku": "PPE-COAT-L",
+            "fit": "exact",
+            "reason": "Laboratory coat in size large matches all stated specifications."
+          },
+          "reranked": false,
+          "margin": 0.0088,
+          "ambiguous": true,
+          "conversion": {
+            "packs": 2,
+            "note": null
+          },
+          "lineTotal": 69,
+          "lexical": {
+            "overlapWithMatch": 0,
+            "keywordPick": null
+          }
+        },
+        {
+          "index": 2,
+          "sourceText": "3 gafas de seguridad",
+          "span": [
+            116,
+            136
+          ],
+          "searchQuery": "safety glasses",
+          "requested": {
+            "quantity": 3,
+            "unit": "each",
+            "unitAsWritten": null
+          },
+          "match": {
+            "sku": "PPE-SPEC-01",
+            "name": "Protective Spectacles, Polycarbonate, Anti-Fog",
+            "unit": "Each",
+            "price": 6.75,
+            "score": 0.7008
+          },
+          "candidates": [
+            {
+              "sku": "PPE-SPEC-01",
+              "name": "Protective Spectacles, Polycarbonate, Anti-Fog",
+              "unit": "Each",
+              "price": 6.75,
+              "score": 0.7008
+            },
+            {
+              "sku": "PPE-RESP-50",
+              "name": "Disposable Particulate Respirator, FFP2, Cup-Shaped",
+              "unit": "Box of 20",
+              "price": 24,
+              "score": 0.6094
+            },
+            {
+              "sku": "PPE-MASK-3P",
+              "name": "Three-Ply Procedure Mask, Ear-Loop",
+              "unit": "Box of 50",
+              "price": 7.2,
+              "score": 0.5981
+            }
+          ],
+          "confidence": "high",
+          "verification": {
+            "sku": "PPE-SPEC-01",
+            "fit": "exact",
+            "reason": "Protective spectacles directly match the requested safety glasses."
+          },
+          "reranked": false,
+          "margin": 0.0914,
+          "ambiguous": false,
+          "conversion": {
+            "packs": 3,
+            "note": null
+          },
+          "lineTotal": 20.25,
+          "lexical": {
+            "overlapWithMatch": 0,
+            "keywordPick": null
+          }
+        },
+        {
+          "index": 3,
+          "sourceText": "1 caja de mascarillas quirúrgicas",
+          "span": [
+            139,
+            172
+          ],
+          "searchQuery": "surgical face masks box",
+          "requested": {
+            "quantity": 1,
+            "unit": "pack",
+            "unitAsWritten": "caja"
+          },
+          "match": {
+            "sku": "PPE-MASK-3P",
+            "name": "Three-Ply Procedure Mask, Ear-Loop",
+            "unit": "Box of 50",
+            "price": 7.2,
+            "score": 0.691
+          },
+          "candidates": [
+            {
+              "sku": "PPE-MASK-3P",
+              "name": "Three-Ply Procedure Mask, Ear-Loop",
+              "unit": "Box of 50",
+              "price": 7.2,
+              "score": 0.691
+            },
+            {
+              "sku": "PPE-RESP-50",
+              "name": "Disposable Particulate Respirator, FFP2, Cup-Shaped",
+              "unit": "Box of 20",
+              "price": 24,
+              "score": 0.6478
+            },
+            {
+              "sku": "PPE-NRL-M",
+              "name": "Natural Rubber Latex Examination Gloves, Lightly Powdered, Medium",
+              "unit": "Box of 100",
+              "price": 8.9,
+              "score": 0.6115
+            }
+          ],
+          "confidence": "high",
+          "verification": {
+            "sku": "PPE-MASK-3P",
+            "fit": "exact",
+            "reason": "Three-ply procedure mask matches the requested surgical masks."
+          },
+          "reranked": false,
+          "margin": 0.0432,
+          "ambiguous": false,
+          "conversion": {
+            "packs": 1,
+            "note": null
+          },
+          "lineTotal": 7.2,
+          "lexical": {
+            "overlapWithMatch": 0,
+            "keywordPick": null
+          }
+        }
+      ],
+      "subtotal": 135.65,
+      "currency": "USD",
+      "stages": [
+        {
+          "id": "extract",
+          "label": "Extract line items",
+          "ms": 1180,
+          "detail": "gemini-flash-lite-latest · structured output · 4 items found"
+        },
+        {
+          "id": "embed",
+          "label": "Embed search queries",
+          "ms": 470,
+          "detail": "gemini-embedding-001 · 768 dimensions · 1 batched call"
+        },
+        {
+          "id": "match",
+          "label": "Vector search",
+          "ms": 1,
+          "detail": "cosine similarity · 4 × 80 comparisons · top 3 kept"
+        },
+        {
+          "id": "verify",
+          "label": "Verify matches",
+          "ms": 20728,
+          "detail": "gemini-flash-lite-latest · top 3 per item · 0 changed"
+        },
+        {
+          "id": "price",
+          "label": "Convert units & price",
+          "ms": 3,
+          "detail": "4 priced · 0 unmatched · 0 flagged"
+        }
+      ],
+      "usage": {
+        "promptTokens": 1333,
+        "completionTokens": 375,
+        "embeddingTokens": 21
+      },
+      "estimatedCostUsd": 0.0013405500000000002,
+      "warnings": []
+    }
+  }
+}
