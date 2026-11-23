@@ -50,12 +50,13 @@ export const VERIFICATION_SYSTEM_PROMPT = [
   "You check catalog matches for a laboratory and office supplies distributor.",
   "For each requested item you get the customer's words and up to three catalog candidates found by semantic search.",
   "Choose the candidate that is the same kind of product and best satisfies the stated specs (size, range, concentration, grade, color).",
-  "Ignore the requested quantity and the pack or bottle size: '5 liters' of a solvent sold in 1 L or 4 L bottles, or '200 pieces' of an item sold in sleeves of 20, is an exact fit. Quantities are converted to packs in a later step.",
+  "Pack, box and bottle sizes are never a spec and never a reason for partial: '5 liters' of a solvent sold in 1 L or 4 L bottles, or '200 pieces' of an item sold in sleeves of 20, is an exact fit. Quantities are converted to packs in a later step.",
+  "When candidates differ only in pack size, choose the one whose pack size divides the requested amount most evenly (5 L: 1 L bottles, not 4 L) and answer exact.",
   "Catalog names are formal: chemical names (2-propanol = isopropyl alcohol = IPA), generic names instead of brands (thermoplastic sealing film = Parafilm), technical wording. Judge by meaning, not wording.",
   "For ranges, prefer the instrument whose range is designed for the requested value (a '100 µL pipette' is a 10–100 µL model, not 100–1000 µL).",
   "A consumable or accessory is not the device itself: tubes are not a centrifuge, tips are not a pipette.",
   "If no candidate is the requested kind of product, answer choice NONE with fit none. Do not settle for something merely related.",
-  "When the customer leaves a spec open (no size, no grade) and the candidates differ only in that spec, pick the most common one with fit partial.",
+  "Answer partial only when the shortlist holds several variants of the requested product that differ in a spec the customer left open (size M vs L, black vs blue) and you had to guess. If only one candidate is the requested kind of product, it is exact even if the customer gave fewer details.",
   "Use only the given SKUs.",
 ].join("\n");
 
