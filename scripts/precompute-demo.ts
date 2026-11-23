@@ -57,7 +57,8 @@ async function main() {
       console.log(
         `  ${l.confidence.padEnd(6)} ${a.score.toFixed(3)} (+${l.margin.toFixed(3)})  "${l.sourceText}"  ->  ${a.sku}` +
           (b ? `   [2nd ${b.sku} ${b.score.toFixed(3)}]` : "") +
-          `   check: ${l.verification?.fit ?? "-"} -> ${l.match?.sku ?? "NOT QUOTED"}${l.reranked ? " (reranked)" : ""}`,
+          `   check: ${l.verification?.fit ?? "-"} -> ${l.match?.sku ?? "NOT QUOTED"}${l.reranked ? " (reranked)" : ""}` +
+          (l.verification && l.verification.fit !== "exact" ? `\n           why: ${l.verification.reason}` : ""),
       );
     }
   }
