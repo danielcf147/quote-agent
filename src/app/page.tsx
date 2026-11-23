@@ -1,13 +1,13 @@
 import { QuoteApp } from "@/components/QuoteApp";
 import { catalog } from "@/lib/catalog";
 import { money } from "@/lib/format";
-import { displayProvider as ai } from "@/lib/provider";
+import { demoChatModels, displayProvider as ai } from "@/lib/provider";
 import { EXTERNAL, SITE } from "@/lib/site";
 
 const STEPS = [
   {
     title: "Extract",
-    body: `${ai.chatModel} turns free text, in any language, into line items with a verbatim source fragment, a neutral search query, a quantity and a normalized unit. Structured output with a strict JSON schema, so the response always parses.`,
+    body: `${demoChatModels.join(" / ")} turns free text, in any language, into line items with a verbatim source fragment, a neutral search query, a quantity and a normalized unit. Structured output with a strict JSON schema, so the response always parses. When a model is busy, the next ${ai.label} model in a fallback list takes over, and the trace names the one that answered.`,
   },
   {
     title: "Embed",
