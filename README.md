@@ -1,5 +1,7 @@
 # Quote Agent
 
+**Live demo: [quote-agent-two.vercel.app](https://quote-agent-two.vercel.app)** · Built by Daniel Campos França ([Upwork](https://www.upwork.com/freelancers/~01dea53eda9fae8e0b) · [LinkedIn](https://www.linkedin.com/in/danielcf147/))
+
 An AI agent that reads purchase requests written in plain language and turns them into priced quotes, and shows how it decided every line.
 
 > "Could you send me a quote for 10 boxes of nitrile gloves size M, 5 liters of isopropyl alcohol and two of those 100 microliter pipettes?"
@@ -113,6 +115,8 @@ src/
     units.ts               quantity to selling-unit conversion
     lexical.ts             naive keyword baseline for comparison
     rate-limit.ts          live-mode limiter
+    site.ts                author, links and public URL
+    share-image.tsx        1200x630 link preview (Open Graph / Twitter Card)
 scripts/
   embed-catalog.ts
   precompute-demo.ts
@@ -121,3 +125,10 @@ scripts/
 ## Disclaimer
 
 All products, SKUs, prices and example requests are fictional and exist only for this demo.
+
+## Author
+
+Daniel Campos França builds AI integrations into existing business systems: reading documents, orders and requests, and turning them into structured data that other software can use.
+
+- Upwork: [upwork.com/freelancers/~01dea53eda9fae8e0b](https://www.upwork.com/freelancers/~01dea53eda9fae8e0b)
+- LinkedIn: [linkedin.com/in/danielcf147](https://www.linkedin.com/in/danielcf147/)
