@@ -1,14 +1,13 @@
 import { QuoteApp } from "@/components/QuoteApp";
 import { catalog } from "@/lib/catalog";
 import { money } from "@/lib/format";
-import { displayProvider as ai } from "@/lib/provider";
-
-const REPO_URL = process.env.NEXT_PUBLIC_REPO_URL;
+import { demoChatModels, displayProvider as ai } from "@/lib/provider";
+import { EXTERNAL, SITE } from "@/lib/site";
 
 const STEPS = [
   {
     title: "Extract",
-    body: `${ai.chatModel} turns free text, in any language, into line items with a verbatim source fragment, a neutral search query, a quantity and a normalized unit. Structured output with a strict JSON schema, so the response always parses.`,
+    body: `${demoChatModels.join(" / ")} turns free text, in any language, into line items with a verbatim source fragment, a neutral search query, a quantity and a normalized unit. Structured output with a strict JSON schema, so the response always parses. When a model is busy, the next ${ai.label} model in a fallback list takes over, and the trace names the one that answered.`,
   },
   {
     title: "Embed",
@@ -39,10 +38,13 @@ export default function Home() {
   return (
     <div className="mx-auto w-full max-w-6xl px-4 pb-20 sm:px-6">
       <header className="flex items-center justify-between py-5">
-        <p className="flex items-center gap-2 text-sm font-semibold text-ink">
-          <span className="inline-block size-2.5 rounded-sm bg-accent" aria-hidden />
-          Quote Agent
-        </p>
+        <div>
+          <p className="flex items-center gap-2 text-sm font-semibold text-ink">
+            <span className="inline-block size-2.5 rounded-sm bg-accent" aria-hidden />
+            {SITE.name}
+          </p>
+          <p className="mt-0.5 pl-[18px] text-xs text-ink-3">Built by {SITE.author}</p>
+        </div>
         <nav className="flex items-center gap-5 text-sm text-ink-2">
           <a href="#how-it-works" className="hover:text-ink">
             How it works
@@ -50,17 +52,15 @@ export default function Home() {
           <a href="#catalog" className="hover:text-ink">
             Catalog
           </a>
-          {REPO_URL && (
-            <a href={REPO_URL} className="hover:text-ink" target="_blank" rel="noreferrer">
-              Source
-            </a>
-          )}
+          <a href={SITE.links.github} className="hover:text-ink" {...EXTERNAL}>
+            Source
+          </a>
         </nav>
       </header>
 
       <section className="pb-8 pt-6 sm:pt-10">
         <h1 className="max-w-3xl text-3xl font-semibold leading-[1.15] tracking-tight text-ink sm:text-[42px]">
-          Purchase requests in plain words, turned into priced quotes.
+          {SITE.tagline}
         </h1>
         <p className="mt-4 max-w-2xl text-base leading-relaxed text-ink-2 sm:text-lg">
           Customers write &ldquo;two of those 100&nbsp;µl pipettes&rdquo;. Catalogs say &ldquo;Single-Channel Adjustable
@@ -70,6 +70,20 @@ export default function Home() {
       </section>
 
       <QuoteApp />
+
+      <aside className="mt-10 flex flex-col gap-4 rounded-2xl border border-line bg-surface px-5 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+        <p className="max-w-2xl text-sm leading-relaxed text-ink-2">
+          <span className="font-medium text-ink">Need something like this for your own documents or orders?</span> I build
+          AI integrations into existing business systems.
+        </p>
+        <a
+          href={SITE.links.upwork}
+          {...EXTERNAL}
+          className="inline-flex shrink-0 items-center justify-center h-10 rounded-lg bg-accent px-4 text-sm font-medium text-accent-ink transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+        >
+          Hire me on Upwork
+        </a>
+      </aside>
 
       <section id="how-it-works" className="scroll-mt-6 pt-20">
         <h2 className="text-xl font-semibold tracking-tight text-ink">How it works</h2>
@@ -128,8 +142,22 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="mt-20 border-t border-line pt-6 text-xs leading-relaxed text-ink-3">
-        Portfolio demo. Catalog, prices and example requests are fictional. No database, no tracking, no stored keys.
+      <footer className="mt-20 flex flex-col gap-3 border-t border-line pt-6 text-xs leading-relaxed text-ink-3 sm:flex-row sm:items-start sm:justify-between">
+        <p className="max-w-xl">
+          Portfolio demo by {SITE.author}. Catalog, prices and example requests are fictional. No database, no tracking,
+          no stored keys.
+        </p>
+        <nav aria-label="Author links" className="flex shrink-0 gap-4 text-ink-2">
+          <a href={SITE.links.upwork} className="hover:text-ink" {...EXTERNAL}>
+            Upwork
+          </a>
+          <a href={SITE.links.linkedin} className="hover:text-ink" {...EXTERNAL}>
+            LinkedIn
+          </a>
+          <a href={SITE.links.github} className="hover:text-ink" {...EXTERNAL}>
+            GitHub
+          </a>
+        </nav>
       </footer>
     </div>
   );
