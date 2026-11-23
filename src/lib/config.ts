@@ -8,17 +8,32 @@
 export type ProviderId = "openai" | "gemini";
 
 /**
- * Chat model overrides. NEXT_PUBLIC_ so the same value reaches the scripts,
- * the server and the browser (bring-your-own-key), which must all agree.
- * Providers retire model names often; change the model here without code edits.
+ * Chat models, in order of preference. When one is overloaded, out of quota or
+ * retired, the next one is tried. Override with a comma-separated list in
+ * NEXT_PUBLIC_GEMINI_CHAT_MODEL / NEXT_PUBLIC_OPENAI_CHAT_MODEL (NEXT_PUBLIC_
+ * so the scripts, the server and the browser all see the same list).
  */
-const OPENAI_CHAT_MODEL = process.env.NEXT_PUBLIC_OPENAI_CHAT_MODEL || "gpt-4.1-mini";
-const GEMINI_CHAT_MODEL = process.env.NEXT_PUBLIC_GEMINI_CHAT_MODEL || "gemini-3.8-flash";
+function modelList(env: string | undefined, defaults: string[]): string[] {
+  const list = (env ?? "").split(",").map((m) => m.trim()).filter(Boolean);
+  return list.length ? list : defaults;
+}
+
+const OPENAI_CHAT_MODELS = modelList(process.env.NEXT_PUBLIC_OPENAI_CHAT_MODEL, ["gpt-4.1-mini", "gpt-4o-mini"]);
+// Free-tier quotas are per model, so falling back across Flash variants multiplies the headroom.
+// The "-latest" aliases follow whatever Google currently serves as Flash / Flash-Lite.
+const GEMINI_CHAT_MODELS = modelList(process.env.NEXT_PUBLIC_GEMINI_CHAT_MODEL, [
+  "gemini-3.8-flash",
+  "gemini-flash-latest",
+  "gemini-3.8-flash-lite",
+  "gemini-flash-lite-latest",
+]);
 
 export interface ProviderConfig {
   id: ProviderId;
   label: string;
+  /** First choice; see chatModels for the fallbacks. */
   chatModel: string;
+  chatModels: string[];
   embeddingModel: string;
   dimensions: number;
   /** Env var read by the scripts and by live mode. */
@@ -35,7 +50,8 @@ export const PROVIDERS: Record<ProviderId, ProviderConfig> = {
   openai: {
     id: "openai",
     label: "OpenAI",
-    chatModel: OPENAI_CHAT_MODEL,
+    chatModel: OPENAI_CHAT_MODELS[0],
+    chatModels: OPENAI_CHAT_MODELS,
     embeddingModel: "text-embedding-3-small",
     dimensions: 512,
     envKey: "OPENAI_API_KEY",
@@ -47,7 +63,8 @@ export const PROVIDERS: Record<ProviderId, ProviderConfig> = {
   gemini: {
     id: "gemini",
     label: "Gemini",
-    chatModel: GEMINI_CHAT_MODEL,
+    chatModel: GEMINI_CHAT_MODELS[0],
+    chatModels: GEMINI_CHAT_MODELS,
     embeddingModel: "gemini-embedding-001",
     dimensions: 768,
     envKey: "GEMINI_API_KEY",

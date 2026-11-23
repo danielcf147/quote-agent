@@ -7,12 +7,12 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { LIMITS, PROVIDERS } from "@/lib/config";
 import { EXAMPLES } from "@/lib/examples";
-import { configureRetries } from "@/lib/llm";
+import { configureChatModels, configureRetries, listGeminiFlashModels } from "@/lib/llm";
 import { assertIndexReady, runQuotePipeline } from "@/lib/pipeline";
 import type { DemoResultsFile, EmbeddingIndex } from "@/lib/types";
 
 // Free-tier models are sometimes overloaded: be patient (up to ~1 minute per call).
-configureRetries({ attempts: 6, baseDelayMs: 2000, timeoutMs: 60_000, onRetry: (info) => console.warn(`    retry: ${info}`) });
+configureRetries({ attempts: 4, baseDelayMs: 2000, timeoutMs: 60_000, onRetry: (info) => console.warn(`    retry: ${info}`) });
 
 const STAGE_LOG = { extract: "extracting items", embed: "embedding queries", match: "searching catalog", verify: "verifying matches", price: "pricing" } as const;
 
@@ -23,7 +23,16 @@ async function main() {
   const cfg = PROVIDERS[assertIndexReady(index)];
   const apiKey = process.env[cfg.envKey];
   if (!apiKey) throw new Error(`The catalog was embedded with ${cfg.label}; set ${cfg.envKey} to precompute the demo.`);
-  console.log(`Running the ${EXAMPLES.length} demo examples with ${cfg.label} (${cfg.chatModel} + ${cfg.embeddingModel})...`);
+  let models = cfg.chatModels;
+  if (cfg.id === "gemini") {
+    const available = await listGeminiFlashModels(apiKey);
+    if (available.length) {
+      models = available;
+      configureChatModels("gemini", available);
+    }
+  }
+  console.log(`Running the ${EXAMPLES.length} demo examples with ${cfg.label} + ${cfg.embeddingModel}.`);
+  console.log(`Chat models, in fallback order: ${models.join(", ")}`);
 
   const out: DemoResultsFile = { generatedAt: new Date().toISOString(), results: {} };
   let total = 0;
@@ -42,7 +51,7 @@ async function main() {
     total += result.estimatedCostUsd;
 
     // Calibration table: use it to tune the thresholds in src/lib/config.ts.
-    console.log(`  done in ${((Date.now() - started) / 1000).toFixed(1)} s, ${result.quoteNumber}:`);
+    console.log(`  done in ${((Date.now() - started) / 1000).toFixed(1)} s with ${result.models.chat}, ${result.quoteNumber}:`);
     for (const l of result.lines) {
       const [a, b] = l.candidates;
       console.log(

@@ -101,7 +101,7 @@ export async function runQuotePipeline(opts: PipelineOptions): Promise<QuoteResu
     id: "extract",
     label: "Extract line items",
     ms: Math.round(now() - t),
-    detail: `${cfg.chatModel} · structured output · ${items.length} item${items.length === 1 ? "" : "s"} found`,
+    detail: `${extraction.model} · structured output · ${items.length} item${items.length === 1 ? "" : "s"} found`,
   });
   if (items.length === 0) throw new PipelineError("No products were found in that request.");
 
@@ -162,7 +162,7 @@ export async function runQuotePipeline(opts: PipelineOptions): Promise<QuoteResu
     id: "verify",
     label: "Verify matches",
     ms: Math.round(now() - t),
-    detail: `${cfg.chatModel} · top ${TOP_K} per item · ${changed} changed`,
+    detail: `${verification.model} · top ${TOP_K} per item · ${changed} changed`,
   });
 
   // 5. Decide, convert units and price.
@@ -244,7 +244,7 @@ export async function runQuotePipeline(opts: PipelineOptions): Promise<QuoteResu
     mode,
     input,
     provider,
-    models: { chat: cfg.chatModel, embedding: cfg.embeddingModel },
+    models: { chat: extraction.model, embedding: cfg.embeddingModel },
     thresholds: th,
     lines,
     subtotal,

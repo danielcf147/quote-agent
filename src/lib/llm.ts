@@ -67,7 +67,8 @@ async function postJson<T>(url: string, headers: Record<string, string>, body: u
       if (!signal?.aborted && caught instanceof Error && (caught.name === "TimeoutError" || caught.name === "AbortError")) {
         err = new ProviderError(`No response within ${retryPolicy.timeoutMs / 1000} s`, 504);
       }
-      const retryable = err instanceof ProviderError && RETRYABLE.has(err.status);
+      // A daily quota will not come back in a minute: give up on this model at once.
+      const retryable = err instanceof ProviderError && RETRYABLE.has(err.status) && !isDailyQuota(err);
       if (!retryable || attempt >= retryPolicy.attempts || signal?.aborted) throw err;
       const retryAfterMs = (err as ProviderError).retryAfterSec * 1000;
       const backoff = retryPolicy.baseDelayMs * 2 ** (attempt - 1) * (0.8 + Math.random() * 0.4);
@@ -102,6 +103,61 @@ async function postJsonOnce<T>(url: string, headers: Record<string, string>, bod
     throw new ProviderError(message, res.status, Number.isFinite(retryAfter) ? retryAfter : 0);
   }
   return (await res.json()) as T;
+}
+
+function isDailyQuota(err: ProviderError) {
+  return err.status === 429 && /per ?day|perday|daily/i.test(err.message);
+}
+
+/** Errors after which another model may still work. */
+function shouldTryNextModel(err: unknown) {
+  if (!(err instanceof ProviderError)) return false;
+  if (RETRYABLE.has(err.status) || err.status === 404 || err.status === 403) return true;
+  return err.status === 400 && /model/i.test(err.message);
+}
+
+/**
+ * Chat model candidates per provider. Starts from config; the scripts can
+ * replace it with the models the key can actually use (see listGeminiFlashModels).
+ */
+const modelCandidates: Record<ProviderId, string[]> = {
+  openai: [...PROVIDERS.openai.chatModels],
+  gemini: [...PROVIDERS.gemini.chatModels],
+};
+/** Index of the last model that worked, so later calls start there. */
+const preferred: Record<ProviderId, number> = { openai: 0, gemini: 0 };
+
+export function configureChatModels(provider: ProviderId, models: string[]) {
+  if (models.length) {
+    modelCandidates[provider] = models;
+    preferred[provider] = 0;
+  }
+}
+
+/**
+ * Lists the Flash chat models this Gemini key can call, best first:
+ * the configured order, then newer before older, Flash before Flash-Lite.
+ */
+export async function listGeminiFlashModels(apiKey: string): Promise<string[]> {
+  const res = await fetch(`${GEMINI_URL}/models?pageSize=200`, { headers: { "x-goog-api-key": apiKey } });
+  if (!res.ok) return [];
+  const data = (await res.json()) as { models?: { name: string; supportedGenerationMethods?: string[] }[] };
+  const available = (data.models ?? [])
+    .filter((m) => m.supportedGenerationMethods?.includes("generateContent"))
+    .map((m) => m.name.replace(/^models\//, ""))
+    .filter((n) => /flash/.test(n) && !/image|tts|audio|live|embedding|robotics|computer|thinking/.test(n));
+  const configured = PROVIDERS.gemini.chatModels.filter((m) => available.includes(m));
+  const version = (n: string) => Number(n.match(/gemini-(\d+(?:\.\d+)?)/)?.[1] ?? 0);
+  const rest = available
+    .filter((n) => !configured.includes(n))
+    .sort(
+      (a, b) =>
+        version(b) - version(a) ||
+        Number(/lite/.test(a)) - Number(/lite/.test(b)) ||
+        Number(/preview|exp/.test(a)) - Number(/preview|exp/.test(b)) ||
+        a.localeCompare(b),
+    );
+  return [...configured, ...rest];
 }
 
 export type EmbeddingPurpose = "document" | "query";
@@ -159,7 +215,29 @@ export async function createStructuredCompletion<T>(
     signal?: AbortSignal;
   },
 ) {
-  const cfg = PROVIDERS[provider];
+  const models = modelCandidates[provider];
+  let lastError: unknown;
+  for (let k = 0; k < models.length; k++) {
+    const i = (preferred[provider] + k) % models.length;
+    try {
+      const result = await completeWith<T>(provider, models[i], apiKey, opts);
+      preferred[provider] = i;
+      return result;
+    } catch (err) {
+      lastError = err;
+      if (opts.signal?.aborted || !shouldTryNextModel(err) || k === models.length - 1) break;
+      retryPolicy.onRetry?.(`${models[i]} unavailable (${(err as Error).message.slice(0, 80)}); trying ${models[(i + 1) % models.length]}`);
+    }
+  }
+  throw lastError;
+}
+
+async function completeWith<T>(
+  provider: ProviderId,
+  model: string,
+  apiKey: string,
+  opts: { system: string; user: string; schemaName: string; schema: Record<string, unknown>; signal?: AbortSignal },
+) {
   const url = provider === "openai" ? `${OPENAI_URL}/chat/completions` : `${GEMINI_URL}/openai/chat/completions`;
   const data = await postJson<{
     choices: { message: { content: string | null; refusal?: string | null } }[];
@@ -168,7 +246,7 @@ export async function createStructuredCompletion<T>(
     url,
     { Authorization: `Bearer ${apiKey}` },
     {
-      model: cfg.chatModel,
+      model,
       temperature: 0,
       // Extraction needs little deliberation; the lowest thinking level keeps Gemini fast and cheap.
       ...(provider === "gemini" ? { reasoning_effort: "low" } : {}),
@@ -186,6 +264,7 @@ export async function createStructuredCompletion<T>(
   const message = data.choices[0]?.message;
   if (!message?.content) throw new ProviderError(message?.refusal || "The model returned no content.", 502);
   return {
+    model,
     value: JSON.parse(message.content.replace(/^```(?:json)?\s*|\s*```$/g, "")) as T,
     promptTokens: data.usage?.prompt_tokens ?? 0,
     completionTokens: data.usage?.completion_tokens ?? 0,
